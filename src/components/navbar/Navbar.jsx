@@ -591,7 +591,7 @@ const Navbar = () => {
                 color: "#1a4f72", cursor: "pointer", fontWeight: 600,
                 "&:hover": { textDecoration: "underline" }
               }}
-              onClick={() => { handleClose(); navigate("/membership"); }}
+              onClick={() => { handleClose(); navigate("/register"); }}
             >
               Register here
             </Box>
