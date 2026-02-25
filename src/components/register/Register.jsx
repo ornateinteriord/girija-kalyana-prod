@@ -1059,7 +1059,7 @@ const Register = () => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ fontWeight: 600 }}
+            sx={{ fontWeight: 600,bgcolor: "#27ae60", "&:hover": { backgroundColor: "#1e8449" } }}
           >
             Pay ₹{discountedPrice}
           </Button>
