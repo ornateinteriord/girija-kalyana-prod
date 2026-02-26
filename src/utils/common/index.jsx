@@ -17,8 +17,8 @@ export const LoadingTextSpinner = () => {
         height: "50vh",
       }}
     >
-      <CircularProgress size={60} color="#000" />
-      <Typography color="#000">Loading...</Typography>
+      <CircularProgress size={60} sx={{ color: "#1a4f72" }} />
+      <Typography sx={{ color: "#1a4f72" }}>Loading...</Typography>
     </Box>
   );
 };

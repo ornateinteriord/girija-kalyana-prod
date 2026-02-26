@@ -211,7 +211,7 @@ const ProfileDialog = ({
         <DialogContent
           sx={{
             p: 0,
-            background: "linear-gradient(135deg, #f0f6fc 0%, #e3f2fd 100%)",
+            background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
             overflowY: "auto",
             maxHeight: { xs: "90vh", sm: "85vh" },
           }}
@@ -291,7 +291,7 @@ const ProfileDialog = ({
                         height: { xs: 130, md: 150 },
                         objectFit: "cover",
                         display: "block",
-                        border: "3px solid #fff",
+                        border: '4px solid #1a4f72',
                       }}
                     />
                   </Box>
@@ -378,14 +378,12 @@ const ProfileDialog = ({
                       padding: { xs: "10px 12px", sm: "12px 18px" },
                       textTransform: "none",
                       fontWeight: 500,
-                      color: "#666",
+                      color: '#1a4f72',
                       "&.Mui-selected": {
                         color: "#1a4f72",
                         fontWeight: 700,
                       },
                       "&:hover": {
-                        backgroundColor: "rgba(26,79,114,0.05)",
-                        color: "#1a4f72",
                       },
                     },
                   }}
@@ -468,7 +466,7 @@ const ProfileDialog = ({
                 borderColor: "rgba(26,79,114,0.3)",
                 width: { xs: "100%", sm: "auto" },
                 "&:hover": {
-                  borderColor: "#1a4f72",
+                  borderColor: '#1a4f72',
                   background: "rgba(26,79,114,0.04)",
                 },
               }}

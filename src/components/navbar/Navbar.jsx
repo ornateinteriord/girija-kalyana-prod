@@ -166,7 +166,7 @@ const Navbar = () => {
             onClick={toggleMobileMenu}
             sx={{
               display: { xs: "flex", md: "none" },
-              color: "#fff",
+              color: "rgba(212, 175, 55, 0.9)",
             }}
           >
             {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
@@ -179,10 +179,14 @@ const Navbar = () => {
             to="/"
             sx={{
               fontWeight: "bold",
-              fontSize: { xs: "1.5rem", sm: "1.5rem", md: "1.75rem" },
+              fontFamily: 'Playfair Display, serif !important',
+              fontSize: { xs: "1.4rem", sm: "1.5rem", md: "1.65rem" },
               whiteSpace: "nowrap",
               textDecoration: "none",
-              color: "#fff",
+              background: "linear-gradient(135deg, #fff 0%, rgba(212,175,55,0.9) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
               textAlign: 'center',
               [theme.breakpoints.up('md')]: {
                 margin: "0",
@@ -214,14 +218,15 @@ const Navbar = () => {
                   component={Link}
                   to={item.path}
                   sx={{
-                    color: "#fff",
+                    color: "rgba(255,255,255,0.9)",
                     fontWeight: 600,
-                    fontSize: "1rem",
+                    fontSize: "0.95rem",
                     textTransform: "capitalize",
-                    margin: "0 8px",
+                    margin: "0 4px",
                     position: "relative",
+                    transition: "color 0.2s ease",
                     "&:hover": {
-                      color: "#fff",
+                      color: "#D4AF37",
                       backgroundColor: "transparent",
                       "&::after": {
                         content: '""',
@@ -230,7 +235,7 @@ const Navbar = () => {
                         left: "8px",
                         right: "8px",
                         height: "2px",
-                        backgroundColor: "#fff",
+                        backgroundColor: "#D4AF37",
                         transform: "scaleX(1)",
                         transition: "transform 0.3s ease"
                       }
@@ -242,7 +247,7 @@ const Navbar = () => {
                       left: "8px",
                       right: "8px",
                       height: "2px",
-                      backgroundColor: "#fff",
+                      backgroundColor: "#ffb74d",
                       transform: isActive ? "scaleX(1)" : "scaleX(0)",
                       transition: "transform 0.3s ease"
                     }
@@ -262,15 +267,20 @@ const Navbar = () => {
                 size={isMobile ? "medium" : "large"}
                 onClick={handleLogout}
                 sx={{
-                  backgroundColor: "black",
-                  minWidth: "120px",
+                  background: "linear-gradient(135deg, #4b7a9c 0%, #1a4f72 100%)",
+                  border: "1px solid rgba(255,255,255,0.4)",
+                  minWidth: "110px",
                   color: "#fff",
                   fontWeight: 700,
-                  height: { xs: "36px", md: "42px" },
+                  height: { xs: "36px", md: "40px" },
                   textTransform: "capitalize",
+                  borderRadius: "8px",
                   display: { xs: "none", sm: "inline-flex" },
+                  transition: "all 0.25s ease",
                   "&:hover": {
-                    backgroundColor: "#333333",
+                    background: "linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)",
+                    boxShadow: "0 4px 16px rgba(26,79,114,0.5)",
+                    transform: "translateY(-1px)",
                   },
                 }}
               >
@@ -283,15 +293,19 @@ const Navbar = () => {
                   size={isMobile ? "medium" : "large"}
                   onClick={handleOpen}
                   sx={{
-                    backgroundColor: "#FFFF",
-                    minWidth: "120px",
-                    color: "#000",
+                    background: "linear-gradient(135deg, #D4AF37 0%, #F0C040 100%)",
+                    minWidth: "110px",
+                    color: "#2C0A0A",
                     fontWeight: 700,
-                    height: { xs: "36px", md: "42px" },
+                    height: { xs: "36px", md: "40px" },
                     textTransform: "capitalize",
+                    borderRadius: "8px",
                     display: { xs: "none", sm: "inline-flex" },
+                    transition: "all 0.25s ease",
                     "&:hover": {
-                      backgroundColor: "#eee",
+                      background: "linear-gradient(135deg, #B8960C 0%, #D4AF37 100%)",
+                      boxShadow: "0 4px 16px rgba(212,175,55,0.45)",
+                      transform: "translateY(-1px)",
                     },
                   }}
                 >
@@ -310,9 +324,10 @@ const Navbar = () => {
         onClose={toggleMobileMenu}
         sx={{
           "& .MuiDrawer-paper": {
-            width: "280px",
-            background: '#1a4f72',
+            width: "290px",
+            background: 'linear-gradient(180deg, #1a4f72 0%, #0f3047 100%)',
             color: "#fff",
+            borderRight: "1px solid rgba(255,255,255,0.2)",
           },
         }}
       >
@@ -379,13 +394,17 @@ const Navbar = () => {
                   toggleMobileMenu();
                 }}
                 sx={{
-                  backgroundColor: "#fff",
-                  color: "#000",
+                  background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+                  color: "#fff",
                   fontWeight: 600,
-                  height: "42px",
+                  height: "44px",
+                  borderRadius: "8px",
                   textTransform: "capitalize",
+                  border: "1px solid rgba(212,175,55,0.3)",
+                  transition: "all 0.25s ease",
                   "&:hover": {
-                    backgroundColor: "#eee",
+                    background: "linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)",
+                    transform: "translateY(-1px)",
                   },
                 }}
               >
@@ -401,13 +420,16 @@ const Navbar = () => {
                     toggleMobileMenu();
                   }}
                   sx={{
-                    backgroundColor: "#fff",
-                    color: "#000",
-                    fontWeight: 600,
-                    height: "42px",
+                    background: "linear-gradient(135deg, #D4AF37 0%, #F0C040 100%)",
+                    color: "#2C0A0A",
+                    fontWeight: 700,
+                    height: "44px",
+                    borderRadius: "8px",
                     textTransform: "capitalize",
+                    transition: "all 0.25s ease",
                     "&:hover": {
-                      backgroundColor: "#eee",
+                      background: "linear-gradient(135deg, #B8960C 0%, #D4AF37 100%)",
+                      transform: "translateY(-1px)",
                     },
                   }}
                 >
@@ -436,7 +458,7 @@ const Navbar = () => {
         {/* Gradient Header */}
         <Box
           sx={{
-            background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+            background: "linear-gradient(135deg, #081d2d 0%, #1a4f72 100%)",
             py: 3.5,
             px: 3,
             display: "flex",
@@ -466,7 +488,7 @@ const Navbar = () => {
           {/* <Typography variant="h5" sx={{ color: "#fff", fontWeight: 700, letterSpacing: 0.5 }}>
             Welcome Back
           </Typography> */}
-          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)",fontSize:"1rem" }}>
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.8)", fontSize: "1rem", textAlign: "center" }}>
             Sign in to your Girija❤️Kalyana account
           </Typography>
         </Box>
@@ -573,9 +595,9 @@ const Navbar = () => {
               boxShadow: "0 4px 15px rgba(26,79,114,0.35)",
               transition: "all 0.3s ease",
               "&:hover": {
-                background: "linear-gradient(135deg, #1565a0 0%, #1976d2 100%)",
-                boxShadow: "0 6px 20px rgba(26,79,114,0.45)",
-                transform: "translateY(-1px)",
+                background: "linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)",
+                boxShadow: "0 8px 24px rgba(26,79,114,0.45)",
+                transform: "translateY(-2px)",
               },
               "&:disabled": { background: "#ccc" },
             }}
@@ -616,7 +638,7 @@ const Navbar = () => {
         {/* Gradient Header */}
         <Box
           sx={{
-            background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+            background: "linear-gradient(135deg, #081d2d 0%, #1a4f72 100%)",
             py: 3,
             px: 3,
             display: "flex",
@@ -768,7 +790,7 @@ const Navbar = () => {
               fontSize: "1rem",
               backgroundColor: '#1a4f72',
               "&:hover": {
-                background: '#1a4f72'
+                background: 'linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)'
               }
             }}
           >

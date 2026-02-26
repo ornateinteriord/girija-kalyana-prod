@@ -392,19 +392,19 @@ const Register = () => {
 
 
   return (
-    <>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
       <Navbar />
       {isPending && <LoadingComponent />}
       <Box
         sx={{
-          minHeight: "100vh",
+          flex: 1,
           py: 4,
           px: { xs: 1, sm: 2 },
           mt: "10px",
           width: isMobile ? "100%" : "85%",
           display: "flex",
           justifyContent: "center",
-          justifySelf: "center",
+          alignSelf: "center",
         }}
       >
         <Box
@@ -476,9 +476,7 @@ const Register = () => {
                 mb: 3,
                 p: { xs: 2, sm: 3 },
                 borderRadius: 3,
-                background: planType === "PremiumUser"
-                  ? "linear-gradient(135deg, #6a1b9a 0%, #9c27b0 100%)"
-                  : "linear-gradient(135deg, #1a4f72 0%, #1976d2 100%)",
+                background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
                 color: "#fff",
                 boxShadow: 4,
                 position: "relative",
@@ -1059,7 +1057,7 @@ const Register = () => {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ fontWeight: 600,bgcolor: "#27ae60", "&:hover": { backgroundColor: "#1e8449" } }}
+            sx={{ fontWeight: 600, bgcolor: "#27ae60", "&:hover": { backgroundColor: "#1e8449" } }}
           >
             Pay ₹{discountedPrice}
           </Button>
@@ -1115,7 +1113,7 @@ const Register = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };
 
