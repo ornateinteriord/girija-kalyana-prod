@@ -33,7 +33,7 @@ const Members = () => {
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-        <CircularProgress sx={{ color: "#1a4f72" }} />
+        <CircularProgress size={40} thickness={4} sx={{ color: '#1a4f72' }} />
       </Box>
     );
   }
@@ -76,7 +76,8 @@ const Members = () => {
           sx={{
             color: "#1a4f72",
             textTransform: "capitalize",
-            fontFamily: "Outfit, sans-serif",
+            fontFamily: 'Playfair Display, serif !important',
+            fontWeight: 700,
             fontSize: { xs: "1.5rem", sm: "2rem" },
             mb: 5,
             mt: 3,
@@ -116,14 +117,14 @@ const Members = () => {
                       borderRadius: 2,
                       p: 4,
                       background: "linear-gradient(135deg, #ffffff 0%, #f0f6fc 100%)",
-                      boxShadow: "0 8px 24px rgba(26, 79, 114, 0.12)",
+                      boxShadow: "0 8px 24px rgba(26, 79, 114, 0.1)",
                       height: "380px",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "start",
                       alignItems: "start",
                       textAlign: "start",
-                      borderTop: "3px solid #1a4f72",
+                      borderTop: '4px solid #1a4f72',
                     }}
                   >
                     <Typography

@@ -7,7 +7,7 @@ const NotFoundPage = () => {
   return (
     <Box
       sx={{
-        backgroundColor: '#f8f9fa',
+        background: 'linear-gradient(135deg, #fff5f5 0%, #fff 100%)',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -19,72 +19,92 @@ const NotFoundPage = () => {
       }}
     >
       <Box sx={{ maxWidth: '600px' }}>
-        <Typography 
+        <Typography
           variant="h1"
-          sx={{ 
-            fontSize: '4rem', 
-            fontWeight: 700,
-            mb: 2,
-            color: '#1a4f72'
+          sx={{
+            fontSize: '6rem',
+            fontWeight: 800,
+            mb: 1,
+            color: '#1a4f72',
+            fontFamily: 'Playfair Display, serif !important',
+            lineHeight: 1,
           }}
         >
           404
         </Typography>
-        
-        <Typography 
+
+        <Typography
+          sx={{ fontSize: '2rem', mb: 1 }}
+        >
+          ❤️
+        </Typography>
+
+        <Typography
           variant="h2"
-          sx={{ 
+          sx={{
             fontSize: '1.8rem',
-            fontWeight: 600,
+            fontWeight: 700,
             mb: 2,
-            color: '#1a4f72'
+            color: '#0f3047',
+            fontFamily: 'Playfair Display, serif !important',
           }}
         >
           Page Not Found
         </Typography>
-        
-        <Typography 
+
+        <Typography
           variant="body1"
-          sx={{ 
-            fontSize: '1.1rem',
-            color: '#000',
-            mb: 3,
-            lineHeight: 1.5
+          sx={{
+            fontSize: '1.05rem',
+            color: '#666',
+            mb: 4,
+            lineHeight: 1.7
           }}
         >
           The page you're looking for doesn't exist or has been moved.
           <br />
           Please check the URL or use the buttons below to navigate.
         </Typography>
-        
+
         <Stack direction="row" spacing={2} justifyContent="center">
-          <Button 
+          <Button
             variant="contained"
             onClick={() => navigate('/')}
             sx={{
-                textTransform:'capitalize',
-              backgroundColor: '#1a4f72',
-              '&:hover': { backgroundColor: '#0d3a5a' },
+              textTransform: 'capitalize',
+              background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 20px rgba(26,79,114,0.4)',
+              },
+              transition: 'all 0.25s ease',
+              fontWeight: 700,
               px: 3,
-              py: 1
+              py: 1,
+              borderRadius: '8px',
             }}
           >
             Return to Home
           </Button>
-          
-          <Button 
+
+          <Button
             variant="outlined"
             onClick={() => navigate(-1)}
             sx={{
-                  textTransform:'capitalize',
+              textTransform: 'capitalize',
               color: '#1a4f72',
               borderColor: '#1a4f72',
-              '&:hover': { 
+              fontWeight: 600,
+              '&:hover': {
                 backgroundColor: '#1a4f72',
-                color: 'white'
+                color: 'white',
+                borderColor: '#1a4f72',
               },
+              transition: 'all 0.25s ease',
               px: 3,
-              py: 1
+              py: 1,
+              borderRadius: '8px',
             }}
           >
             Go Back

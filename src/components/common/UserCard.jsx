@@ -262,8 +262,9 @@ const UserCard = ({
                   fontSize: "0.82rem",
                   flex: 1,
                   "&:hover": {
-                    background: "rgba(211,47,47,0.06)",
-                    borderColor: "#d32f2f",
+                    background: "rgba(26,79,114,0.06)",
+                    borderColor: '#1a4f72',
+                    color: '#1a4f72',
                   },
                 }}
                 onClick={() => onResponse(profile?.registration_no, false)}
@@ -330,11 +331,11 @@ const UserCard = ({
                 textTransform: "none",
                 fontWeight: 600,
                 fontSize: { xs: "0.78rem", sm: "0.82rem" },
-                color: "#d32f2f",
-                borderColor: "rgba(211,47,47,0.4)",
+                color: "#1a4f72",
+                borderColor: "rgba(26,79,114,0.4)",
                 "&:hover": {
-                  background: "rgba(211,47,47,0.06)",
-                  borderColor: "#d32f2f",
+                  background: "rgba(26,79,114,0.06)",
+                  borderColor: "#1a4f72",
                 },
               }}
             >
@@ -354,11 +355,11 @@ const UserCard = ({
                 textTransform: "none",
                 fontWeight: 600,
                 fontSize: { xs: "0.78rem", sm: "0.82rem" },
-                color: "#888",
-                borderColor: "rgba(0,0,0,0.2)",
+                color: '#1a4f72',
+                borderColor: "rgba(26,79,114,0.2)",
                 "&:hover": {
-                  background: "rgba(0,0,0,0.04)",
-                  borderColor: "rgba(0,0,0,0.35)",
+                  background: "rgba(26,79,114,0.04)",
+                  borderColor: "rgba(26,79,114,0.35)",
                 },
               }}
             >

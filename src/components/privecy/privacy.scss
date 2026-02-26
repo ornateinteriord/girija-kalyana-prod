@@ -9,7 +9,7 @@
 
   .privacy-header {
     text-align: center;
-    background: #1a4f72;
+    background: linear-gradient(135deg, #1a4f72 0%, #2196f3 100%);
     color: #fff;
     padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 3vw, 1.25rem);
     border-radius: 8px;
@@ -119,7 +119,8 @@
       margin-bottom: 1.25rem;
     }
 
-    .privacy-section, .grievance-section {
+    .privacy-section,
+    .grievance-section {
       padding: 0.875rem;
     }
   }

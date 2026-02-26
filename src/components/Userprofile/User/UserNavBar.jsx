@@ -25,7 +25,8 @@ import { Visibility, VisibilityOff, Settings, Help } from "@mui/icons-material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import TokenService from "../../token/tokenService";
-import { useChangePassword,
+import {
+  useChangePassword,
   useGetMemberDetails,
 } from "../../api/User";
 import { useRaiseTicket } from "../../api/Payment";
@@ -371,7 +372,7 @@ const UserNavBar = () => {
             [`& .MuiDrawer-paper`]: {
               width: isSidebarOpen ? drawerWidth : 0,
               boxSizing: "border-box",
-              background: "#1a4f72",
+              background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
               color: "#fff",
               transition: "width 0.6s ease, opacity 0.6s ease",
               opacity: isSidebarOpen ? 1 : 0,
@@ -407,62 +408,62 @@ const UserNavBar = () => {
           <Outlet />
         </Box>
 
-       <Dialog
-  open={openLogoutDialog}
-  onClose={handleCloseLogoutDialog}
-  aria-labelledby="alert-dialog-title"
-  aria-describedby="alert-dialog-description"
->
-  <DialogTitle sx={{ fontWeight: 600, color: "black" }} id="alert-dialog-title">
-    Confirm Logout
-  </DialogTitle>
+        <Dialog
+          open={openLogoutDialog}
+          onClose={handleCloseLogoutDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle sx={{ fontWeight: 600, color: "black" }} id="alert-dialog-title">
+            Confirm Logout
+          </DialogTitle>
 
-  <DialogContent>
-    <DialogContentText
-      id="alert-dialog-description"
-      sx={{ color: "black" }}
-    >
-      Are you sure you want to logout from your account?
-    </DialogContentText>
-  </DialogContent>
+          <DialogContent>
+            <DialogContentText
+              id="alert-dialog-description"
+              sx={{ color: "black" }}
+            >
+              Are you sure you want to logout from your account?
+            </DialogContentText>
+          </DialogContent>
 
-  <DialogActions>
-    <Button
-      onClick={handleCloseLogoutDialog}
-      variant="outlined"
-      sx={{
-        textTransform: "capitalize",
-        fontSize: "18px",
-        fontWeight: 500,
-        color: "black",
-        borderColor: "black",
-        "&:hover": {
-          backgroundColor: "#f0f0f0",
-          borderColor: "black",
-        },
-      }}
-    >
-      Cancel
-    </Button>
+          <DialogActions>
+            <Button
+              onClick={handleCloseLogoutDialog}
+              variant="outlined"
+              sx={{
+                textTransform: "capitalize",
+                fontSize: "18px",
+                fontWeight: 500,
+                color: "black",
+                borderColor: "black",
+                "&:hover": {
+                  backgroundColor: "#f0f0f0",
+                  borderColor: "black",
+                },
+              }}
+            >
+              Cancel
+            </Button>
 
-    <Button
-      onClick={handleConfirmLogout}
-      color="error"
-      variant="contained"
-      autoFocus
-      sx={{
-        textTransform: "capitalize",
-        fontSize: "18px",
-        fontWeight: 500,
-        "&:hover": {
-          backgroundColor: "#d32f2f", 
-        },
-      }}
-    >
-      Logout
-    </Button>
-  </DialogActions>
-</Dialog>
+            <Button
+              onClick={handleConfirmLogout}
+              color="error"
+              variant="contained"
+              autoFocus
+              sx={{
+                textTransform: "capitalize",
+                fontSize: "18px",
+                fontWeight: 500,
+                "&:hover": {
+                  backgroundColor: "#d32f2f",
+                },
+              }}
+            >
+              Logout
+            </Button>
+          </DialogActions>
+        </Dialog>
 
 
         <Dialog
@@ -568,7 +569,7 @@ const UserNavBar = () => {
                 textTransform: "capitalize",
                 fontSize: "18px",
                 color: "green",
-                fontWeight:400,
+                fontWeight: 400,
                 "&:hover": {
                   backgroundColor: "transparent",
                 },
@@ -582,7 +583,7 @@ const UserNavBar = () => {
 
         {isLoading && <LoadingComponent />}
       </Box>
-      
+
       <IncompletePaymentTicket
         open={ticketDialogOpen}
         onClose={handleCloseTicketDialog}

@@ -169,8 +169,6 @@ const MembershipPlans = () => {
                 elevation={3}
                 sx={{
                   mt: isMobile ? 2 : 6,
-                  p: 4,
-                  borderRadius: 3,
                   background: 'linear-gradient(145deg, #ffffff, #f5f5ff)',
                   borderLeft: `6px solid ${theme.palette.primary.main}`,
                   height: '100%',
@@ -383,70 +381,70 @@ const MembershipPlans = () => {
 
           </Box>
         </Box>
-      </Box>
-      <Footer />
+        <Footer />
 
-      {/* Promocode Dialog */}
-      <Dialog open={promocodeDialogOpen} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
-        <DialogTitle>
-          Apply Promocode
-          <IconButton
-            aria-label="close"
-            onClick={handleCloseDialog}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Enter your promocode for {selectedPlan?.name} to get ₹100 discount
-          </Typography>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Promocode"
-            fullWidth
-            variant="outlined"
-            value={promocode}
-            onChange={(e) => setPromocode(e.target.value)}
-            disabled={isChecking}
-          />
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: "center", p: 3, gap: 2 }}>
-          <Button
-            variant="outlined"
-            onClick={handleCloseDialog}
-            disabled={isChecking}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleApplyPromocode}
-            disabled={!promocode.trim() || isChecking}
-            startIcon={
-              isChecking ? (
-                <CircularProgress size={20} />
-              ) : null
-            }
-            sx={{
-              minWidth: 120,
-              background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #1976D2 30%, #0288D1 90%)",
-              },
-            }}
-          >
-            {isChecking ? "Checking..." : "Apply"}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        {/* Promocode Dialog */}
+        <Dialog open={promocodeDialogOpen} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
+          <DialogTitle>
+            Apply Promocode
+            <IconButton
+              aria-label="close"
+              onClick={handleCloseDialog}
+              sx={{
+                position: 'absolute',
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" sx={{ mb: 2 }}>
+              Enter your promocode for {selectedPlan?.name} to get ₹100 discount
+            </Typography>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Promocode"
+              fullWidth
+              variant="outlined"
+              value={promocode}
+              onChange={(e) => setPromocode(e.target.value)}
+              disabled={isChecking}
+            />
+          </DialogContent>
+          <DialogActions sx={{ justifyContent: "center", p: 3, gap: 2 }}>
+            <Button
+              variant="outlined"
+              onClick={handleCloseDialog}
+              disabled={isChecking}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleApplyPromocode}
+              disabled={!promocode.trim() || isChecking}
+              startIcon={
+                isChecking ? (
+                  <CircularProgress size={20} />
+                ) : null
+              }
+              sx={{
+                minWidth: 120,
+                background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+                "&:hover": {
+                  background: "linear-gradient(45deg, #1976D2 30%, #0288D1 90%)",
+                },
+              }}
+            >
+              {isChecking ? "Checking..." : "Apply"}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
     </>
   );
 };
