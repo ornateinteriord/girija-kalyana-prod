@@ -78,6 +78,8 @@ const Members = lazy(() => import('./components/members/Member'));
 const AboutUs = lazy(() => import('./components/Aboutus/AboutUs'));
 const Privacy = lazy(() => import('./components/privecy/Privacy'));
 const ContactUs = lazy(() => import('./components/contactus/ContactUs'));
+const TermsAndConditions = lazy(() => import('./components/terms/TermsAndConditions'));
+const RefundPolicy = lazy(() => import('./components/refundpolicy/RefundPolicy'));
 const AdminDashboard = lazy(() => import('./components/Admin/AdminDashboard'));
 const UserTable = lazy(() => import('./components/Admin/UserManagement/UserTable'));
 const UserData = lazy(() => import('./components/Admin/userData/UserData'));
@@ -247,6 +249,8 @@ const App = () => {
                   <Route path="/service" element={<Servieces />} />
                   <Route path="/about" element={<AboutUs />} />
                   <Route path="/privacy-policy" element={<Privacy />} />
+                  <Route path="/terms" element={<TermsAndConditions />} />
+                  <Route path="/refund-policy" element={<RefundPolicy />} />
                   <Route path="/contact" element={<ContactUs />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/test-plan" element={<TestPlanSelection />} />
