@@ -35,6 +35,8 @@ function Footer() {
               <li onClick={() => navigate("/service")}>Service</li>
               <li onClick={() => navigate("/about")}>About Us</li>
               <li onClick={() => navigate("/privacy-policy")}>Privacy Policy</li>
+              <li onClick={() => navigate("/terms")}>Terms & Conditions</li>
+              <li onClick={() => navigate("/refund-policy")}>Refund Policy</li>
               <li onClick={() => navigate("/contact")}>Contact Us</li>
             </ul>
           </div>
