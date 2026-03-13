@@ -9,10 +9,10 @@
   left: 0;
   width: 100%;
   height: 70px;
-  background: linear-gradient(135deg, #081d2d 0%, #1a4f72 60%, #2196f3 100%);
+  background: linear-gradient(135deg, #2D081C 0%, #9E1B47 60%, #E91E63 100%);
   color: #fff;
   z-index: 1000;
-  box-shadow: 0 2px 20px rgba(26, 79, 114, 0.45);
+  box-shadow: 0 2px 20px rgba(158, 27, 71, 0.45);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   font-family: 'Outfit', sans-serif;
   backdrop-filter: blur(10px);
@@ -20,7 +20,7 @@
   transition: box-shadow 0.3s ease;
 
   &:hover {
-    box-shadow: 0 4px 28px rgba(26, 79, 114, 0.55);
+    box-shadow: 0 4px 28px rgba(158, 27, 71, 0.55);
   }
 }
 

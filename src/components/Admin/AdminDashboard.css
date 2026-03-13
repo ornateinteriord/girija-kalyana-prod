@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   height: 75px;
-  background: #1a4f72;
+  background: #9E1B47;
   color: white;
   z-index: 1001;
   font-family: 'Outfit sans-serif';
@@ -53,7 +53,7 @@
 }
 
 .sidebar {
-  background-color: #1a4f72;
+  background-color: #9E1B47;
   color: white;
   width: 290px !important;
   position: fixed;

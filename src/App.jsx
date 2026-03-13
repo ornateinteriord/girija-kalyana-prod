@@ -35,9 +35,9 @@ const queryClient = new QueryClient();
 const globalTheme = createTheme({
   palette: {
     primary: {
-      main: '#1a4f72',
-      light: '#2196f3',
-      dark: '#0f3047',
+      main: '#9E1B47',
+      light: '#E91E63',
+      dark: '#4A0E2E',
     },
     secondary: {
       main: '#ffb74d',
@@ -121,7 +121,7 @@ export const LoadingComponent = () => {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        background: 'linear-gradient(135deg, #081d2d 0%, #1a4f72 50%, #2196f3 100%)',
+        background: 'linear-gradient(135deg, #2D081C 0%, #9E1B47 50%, #E91E63 100%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

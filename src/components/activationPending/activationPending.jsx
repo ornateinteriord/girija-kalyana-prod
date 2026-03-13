@@ -69,7 +69,7 @@ const ActivationPending = () => {
               left: 0,
               right: 0,
               height: 4,
-              background: "linear-gradient(90deg, #3f51b5, #2196f3)",
+              background: "linear-gradient(90deg, #3f51b5, #E91E63)",
             },
           }}
         >
@@ -224,7 +224,7 @@ const ActivationPending = () => {
                 borderRadius: 2,
                 fontWeight: 600,
                 textTransform: 'none',
-                background: "linear-gradient(90deg, #3f51b5, #2196f3)",
+                background: "linear-gradient(90deg, #3f51b5, #E91E63)",
                 "&:hover": {
                   transform: "translateY(-2px)",
                   boxShadow: "0 4px 12px rgba(63, 81, 181, 0.3)",

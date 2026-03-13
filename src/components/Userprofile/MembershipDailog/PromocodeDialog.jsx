@@ -143,7 +143,7 @@ const PromocodeDialog = ({ open, onClose, onPromocodeApply }) => {
           }
           sx={{
             minWidth: 120,
-            background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+            background: "linear-gradient(45deg, #E91E63 30%, #21CBF3 90%)",
             "&:hover": {
               background: "linear-gradient(45deg, #1976D2 30%, #0288D1 90%)",
             },

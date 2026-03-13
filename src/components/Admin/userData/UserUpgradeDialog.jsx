@@ -203,7 +203,7 @@ const UserUpgradeDialog = ({ open, handleClose, defaultUserType, userId }) => {
                         textTransform: "capitalize",
                         ':hover': {
                             backgroundColor: 'transparent',
-                            borderColor: '#1a4f72'
+                            borderColor: '#9E1B47'
                         }
                     }}
                 >
@@ -219,9 +219,9 @@ const UserUpgradeDialog = ({ open, handleClose, defaultUserType, userId }) => {
                         fontWeight: 500,
                         textTransform: "capitalize",
                         fontSize: "1rem",
-                        backgroundColor: "#1a4f72",
+                        backgroundColor: "#9E1B47",
                         "&:hover": {
-                            backgroundColor: "#1a4f72",
+                            backgroundColor: "#9E1B47",
                         },
                     }}
                     disabled={isUpgrading || !formData.userType || !formData.amountPaid || !formData.paidType || !formData.referenceNumber}

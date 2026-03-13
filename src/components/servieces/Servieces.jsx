@@ -53,7 +53,7 @@ const services = [
       <Navbar />
       <div className="servicebody">
       <h2 style={{ textTransform: "capitalize",
-        marginTop:'25px',fontWeight:400,color:'#1a4f72' }}>Assisted Service Advantages</h2>
+        marginTop:'25px',fontWeight:400,color:'#9E1B47' }}>Assisted Service Advantages</h2>
         <div className="service-grid">
           {services.map((service, index) => (
             <div className="service-card" key={index}>

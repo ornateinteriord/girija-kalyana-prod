@@ -32,12 +32,12 @@ const UserCard = ({
       sx={{
         width: { xs: 280, sm: 280, md: 260, lg: 280 },
         borderRadius: "20px",
-        boxShadow: "0 4px 24px rgba(26,79,114,0.10)",
+        boxShadow: "0 4px 24px rgba(158, 27, 71,0.10)",
         overflow: "hidden",
         transition: "transform 0.25s ease, box-shadow 0.25s ease",
         "&:hover": {
           transform: "translateY(-6px)",
-          boxShadow: "0 12px 36px rgba(26,79,114,0.18)",
+          boxShadow: "0 12px 36px rgba(158, 27, 71,0.18)",
         },
         display: "flex",
         flexDirection: "column",
@@ -51,7 +51,7 @@ const UserCard = ({
         sx={{
           width: "100%",
           height: 72,
-          background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+          background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
           position: "relative",
           flexShrink: 0,
         }}
@@ -126,9 +126,9 @@ const UserCard = ({
             width: { xs: 90, sm: 96 },
             height: { xs: 90, sm: 96 },
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #1a4f72, #64b5f6)",
+            background: "linear-gradient(135deg, #9E1B47, #64b5f6)",
             padding: "3px",
-            boxShadow: "0 4px 16px rgba(26,79,114,0.35)",
+            boxShadow: "0 4px 16px rgba(158, 27, 71,0.35)",
           }}
         >
           <Avatar
@@ -173,10 +173,10 @@ const UserCard = ({
         <Typography
           sx={{
             fontSize: "0.82rem",
-            color: "#1a4f72",
+            color: "#9E1B47",
             fontWeight: 600,
             mb: 1.2,
-            background: "rgba(26,79,114,0.08)",
+            background: "rgba(158, 27, 71,0.08)",
             px: 1.5,
             py: 0.25,
             borderRadius: "20px",
@@ -195,7 +195,7 @@ const UserCard = ({
             mb: 0.6,
           }}
         >
-          <FaBriefcase size={13} color="#1a4f72" />
+          <FaBriefcase size={13} color="#9E1B47" />
           <Typography variant="body2" sx={{ color: "#444", fontSize: "0.82rem" }}>
             {profile?.occupation || "Not specified"}
           </Typography>
@@ -211,7 +211,7 @@ const UserCard = ({
             mb: 1.5,
           }}
         >
-          <FaMapMarkerAlt size={13} color="#1a4f72" />
+          <FaMapMarkerAlt size={13} color="#9E1B47" />
           <Typography variant="body2" sx={{ color: "#444", fontSize: "0.82rem" }}>
             {[profile?.city, profile?.state, profile?.country]
               .filter(Boolean)
@@ -225,7 +225,7 @@ const UserCard = ({
             width: "100%",
             display: "flex",
             justifyContent: "space-around",
-            background: "rgba(26,79,114,0.05)",
+            background: "rgba(158, 27, 71,0.05)",
             borderRadius: "12px",
             py: 1,
             px: 0.5,
@@ -233,9 +233,9 @@ const UserCard = ({
           }}
         >
           <ProfileInfo label="Height" value={profile?.height || "N/A"} />
-          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(26,79,114,0.15)" }} />
+          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(158, 27, 71,0.15)" }} />
           <ProfileInfo label="Religion" value={profile?.religion || "N/A"} />
-          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(26,79,114,0.15)" }} />
+          <Divider orientation="vertical" flexItem sx={{ borderColor: "rgba(158, 27, 71,0.15)" }} />
           <ProfileInfo label="Caste" value={profile?.caste || "N/A"} />
         </Box>
 
@@ -262,9 +262,9 @@ const UserCard = ({
                   fontSize: "0.82rem",
                   flex: 1,
                   "&:hover": {
-                    background: "rgba(26,79,114,0.06)",
-                    borderColor: '#1a4f72',
-                    color: '#1a4f72',
+                    background: "rgba(158, 27, 71,0.06)",
+                    borderColor: '#9E1B47',
+                    color: '#9E1B47',
                   },
                 }}
                 onClick={() => onResponse(profile?.registration_no, false)}
@@ -275,17 +275,17 @@ const UserCard = ({
                 fullWidth
                 variant="contained"
                 sx={{
-                  background: "linear-gradient(135deg, #1a4f72, #2196f3)",
+                  background: "linear-gradient(135deg, #9E1B47, #E91E63)",
                   color: "#fff",
                   fontWeight: 600,
                   textTransform: "none",
                   borderRadius: "10px",
                   fontSize: "0.82rem",
                   flex: 1,
-                  boxShadow: "0 2px 10px rgba(26,79,114,0.3)",
+                  boxShadow: "0 2px 10px rgba(158, 27, 71,0.3)",
                   "&:hover": {
-                    background: "linear-gradient(135deg, #2196f3, #1a4f72)",
-                    boxShadow: "0 4px 14px rgba(26,79,114,0.4)",
+                    background: "linear-gradient(135deg, #E91E63, #9E1B47)",
+                    boxShadow: "0 4px 14px rgba(158, 27, 71,0.4)",
                   },
                 }}
                 onClick={() => onResponse(profile?.registration_no, true)}
@@ -301,14 +301,14 @@ const UserCard = ({
             variant="contained"
             onClick={() => onViewMore(profile)}
             sx={{
-              background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+              background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
               "&:hover": {
-                background: "linear-gradient(135deg, #2196f3 0%, #1a4f72 100%)",
-                boxShadow: "0 4px 16px rgba(26,79,114,0.4)",
+                background: "linear-gradient(135deg, #E91E63 0%, #9E1B47 100%)",
+                boxShadow: "0 4px 16px rgba(158, 27, 71,0.4)",
                 transform: "translateY(-1px)",
               },
               transition: "all 0.2s ease",
-              boxShadow: "0 2px 10px rgba(26,79,114,0.25)",
+              boxShadow: "0 2px 10px rgba(158, 27, 71,0.25)",
               borderRadius: "10px",
               py: 0.9,
               textTransform: "none",
@@ -331,11 +331,11 @@ const UserCard = ({
                 textTransform: "none",
                 fontWeight: 600,
                 fontSize: { xs: "0.78rem", sm: "0.82rem" },
-                color: "#1a4f72",
-                borderColor: "rgba(26,79,114,0.4)",
+                color: "#9E1B47",
+                borderColor: "rgba(158, 27, 71,0.4)",
                 "&:hover": {
-                  background: "rgba(26,79,114,0.06)",
-                  borderColor: "#1a4f72",
+                  background: "rgba(158, 27, 71,0.06)",
+                  borderColor: "#9E1B47",
                 },
               }}
             >
@@ -355,11 +355,11 @@ const UserCard = ({
                 textTransform: "none",
                 fontWeight: 600,
                 fontSize: { xs: "0.78rem", sm: "0.82rem" },
-                color: '#1a4f72',
-                borderColor: "rgba(26,79,114,0.2)",
+                color: '#9E1B47',
+                borderColor: "rgba(158, 27, 71,0.2)",
                 "&:hover": {
-                  background: "rgba(26,79,114,0.04)",
-                  borderColor: "rgba(26,79,114,0.35)",
+                  background: "rgba(158, 27, 71,0.04)",
+                  borderColor: "rgba(158, 27, 71,0.35)",
                 },
               }}
             >
@@ -380,7 +380,7 @@ export const ProfileInfo = ({ label, value }) => (
       variant="caption"
       sx={{
         fontWeight: 700,
-        color: "#1a4f72",
+        color: "#9E1B47",
         fontSize: "0.68rem",
         letterSpacing: "0.3px",
         textTransform: "uppercase",
