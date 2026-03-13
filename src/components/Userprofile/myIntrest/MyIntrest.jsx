@@ -81,15 +81,15 @@ const MyInterest = () => {
             fontWeight: 600,
             color: "#444",
             "&:hover": {
-              backgroundColor: "rgba(26, 79, 114, 0.1)",
-              color: "#1a4f72",
+              backgroundColor: "rgba(158, 27, 71, 0.1)",
+              color: "#9E1B47",
             },
           },
           "& .Mui-selected": {
-            color: "#1a4f72 !important",
+            color: "#9E1B47 !important",
           },
           "& .MuiTabs-indicator": {
-            backgroundColor: "#1a4f72",
+            backgroundColor: "#9E1B47",
           },
         }}
       >

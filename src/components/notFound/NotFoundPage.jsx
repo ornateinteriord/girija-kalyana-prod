@@ -15,7 +15,7 @@ const NotFoundPage = () => {
         justifyContent: 'center',
         textAlign: 'center',
         padding: 4,
-        color: '#1a4f72'
+        color: '#9E1B47'
       }}
     >
       <Box sx={{ maxWidth: '600px' }}>
@@ -25,7 +25,7 @@ const NotFoundPage = () => {
             fontSize: '6rem',
             fontWeight: 800,
             mb: 1,
-            color: '#1a4f72',
+            color: '#9E1B47',
             fontFamily: 'Playfair Display, serif !important',
             lineHeight: 1,
           }}
@@ -45,7 +45,7 @@ const NotFoundPage = () => {
             fontSize: '1.8rem',
             fontWeight: 700,
             mb: 2,
-            color: '#0f3047',
+            color: '#4A0E2E',
             fontFamily: 'Playfair Display, serif !important',
           }}
         >
@@ -72,11 +72,11 @@ const NotFoundPage = () => {
             onClick={() => navigate('/')}
             sx={{
               textTransform: 'capitalize',
-              background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
+              background: 'linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)',
+                background: 'linear-gradient(135deg, #4A0E2E 0%, #9E1B47 100%)',
                 transform: 'translateY(-2px)',
-                boxShadow: '0 6px 20px rgba(26,79,114,0.4)',
+                boxShadow: '0 6px 20px rgba(158, 27, 71,0.4)',
               },
               transition: 'all 0.25s ease',
               fontWeight: 700,
@@ -93,13 +93,13 @@ const NotFoundPage = () => {
             onClick={() => navigate(-1)}
             sx={{
               textTransform: 'capitalize',
-              color: '#1a4f72',
-              borderColor: '#1a4f72',
+              color: '#9E1B47',
+              borderColor: '#9E1B47',
               fontWeight: 600,
               '&:hover': {
-                backgroundColor: '#1a4f72',
+                backgroundColor: '#9E1B47',
                 color: 'white',
-                borderColor: '#1a4f72',
+                borderColor: '#9E1B47',
               },
               transition: 'all 0.25s ease',
               px: 3,

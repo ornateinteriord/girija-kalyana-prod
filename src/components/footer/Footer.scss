@@ -1,5 +1,5 @@
 .footer {
-  background: linear-gradient(160deg, #0a192f 0%, #1a4f72 40%, #203a43 80%, #0f2027 100%);
+  background: linear-gradient(160deg, #0a192f 0%, #9E1B47 40%, #203a43 80%, #0f2027 100%);
   color: #fff;
   padding: 60px 0 0;
   font-family: "Outfit", sans-serif;
@@ -15,7 +15,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, transparent, #2196f3, #64b5f6, #2196f3, transparent);
+    background: linear-gradient(90deg, transparent, #E91E63, #64b5f6, #E91E63, transparent);
   }
 
   // Decorative background pattern
@@ -27,7 +27,7 @@
     width: 300px;
     height: 300px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(33, 150, 243, 0.04) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(233, 30, 99, 0.04) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -65,7 +65,7 @@
       left: 0;
       width: 32px;
       height: 2px;
-      background: linear-gradient(90deg, #2196f3, rgba(33, 150, 243, 0.3));
+      background: linear-gradient(90deg, #E91E63, rgba(233, 30, 99, 0.3));
       border-radius: 2px;
     }
   }
@@ -105,12 +105,12 @@
         opacity: 0;
         transform: translateX(-6px);
         transition: all 0.25s ease;
-        color: #2196f3;
+        color: #E91E63;
         font-size: 1.1rem;
       }
 
       &:hover {
-        color: #2196f3;
+        color: #E91E63;
         padding-left: 4px;
 
         &::before {
@@ -125,7 +125,7 @@
     width: 100%;
     padding: 11px 15px;
     margin-bottom: 10px;
-    border: 1px solid rgba(33, 150, 243, 0.2);
+    border: 1px solid rgba(233, 30, 99, 0.2);
     border-radius: 8px;
     font-size: 0.9rem;
     box-sizing: border-box;
@@ -139,17 +139,17 @@
     }
 
     &:focus {
-      border-color: rgba(33, 150, 243, 0.6);
+      border-color: rgba(233, 30, 99, 0.6);
       background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.08);
+      box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.08);
     }
   }
 
   &-button {
-    background: linear-gradient(135deg, #1a4f72 0%, #2196f3 100%);
+    background: linear-gradient(135deg, #9E1B47 0%, #E91E63 100%);
     color: #fff;
     padding: 11px 20px;
-    border: 1px solid rgba(33, 150, 243, 0.3);
+    border: 1px solid rgba(233, 30, 99, 0.3);
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
@@ -159,10 +159,10 @@
     width: 100%;
 
     &:hover {
-      background: linear-gradient(135deg, #2196f3 0%, #64b5f6 100%);
-      border-color: rgba(33, 150, 243, 0.6);
+      background: linear-gradient(135deg, #E91E63 0%, #64b5f6 100%);
+      border-color: rgba(233, 30, 99, 0.6);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.2);
+      box-shadow: 0 6px 20px rgba(233, 30, 99, 0.2);
     }
   }
 
@@ -171,7 +171,7 @@
     justify-content: center;
     gap: 12px;
     padding: 28px 0 22px;
-    border-top: 1px solid rgba(33, 150, 243, 0.12);
+    border-top: 1px solid rgba(233, 30, 99, 0.12);
     margin-top: 8px;
   }
 
@@ -186,14 +186,14 @@
     justify-content: center;
     transition: all 0.3s ease;
     background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(33, 150, 243, 0.15);
+    border: 1px solid rgba(233, 30, 99, 0.15);
     cursor: pointer;
 
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border-color: rgba(33, 150, 243, 0.4);
-      color: #2196f3;
+      border-color: rgba(233, 30, 99, 0.4);
+      color: #E91E63;
     }
 
     &.facebook:hover {
@@ -225,7 +225,7 @@
     font-size: 0.82rem;
     text-align: center;
     padding: 18px 0;
-    border-top: 1px solid rgba(33, 150, 243, 0.1);
+    border-top: 1px solid rgba(233, 30, 99, 0.1);
     color: rgba(255, 255, 255, 0.45);
     letter-spacing: 0.3px;
   }

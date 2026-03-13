@@ -476,7 +476,7 @@ const Register = () => {
                 mb: 3,
                 p: { xs: 2, sm: 3 },
                 borderRadius: 3,
-                background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+                background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
                 color: "#fff",
                 boxShadow: 4,
                 position: "relative",
@@ -983,7 +983,7 @@ const Register = () => {
                 width: { xs: "100%", sm: "50%", md: "20%" },
                 textTransform: "capitalize",
                 color: "#fff",
-                background: "#1a4f72",
+                background: "#9E1B47",
                 "&:hover": {
                   background: "#245a7e",
                 },
@@ -1103,7 +1103,7 @@ const Register = () => {
             }
             sx={{
               minWidth: 120,
-              background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+              background: "linear-gradient(45deg, #E91E63 30%, #21CBF3 90%)",
               "&:hover": {
                 background: "linear-gradient(45deg, #1976D2 30%, #0288D1 90%)",
               },

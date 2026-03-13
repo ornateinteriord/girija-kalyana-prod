@@ -11,7 +11,7 @@ const Connect = () => {
       id: 1,
       title: 'Profiles',
       value: `${dashboardstats?.stats?.totalProfiles || 0}`,
-      icon: <FaUserFriends style={{ fontSize: 40, color: '#1a4f72' }} />,
+      icon: <FaUserFriends style={{ fontSize: 40, color: '#9E1B47' }} />,
       color: '#f8f9fa',
       textColor: 'rgb(192, 9, 88)',
 
@@ -20,7 +20,7 @@ const Connect = () => {
       id: 2,
       title: 'This Week',
       value: `${dashboardstats?.stats?.thisWeekRegistrations || 0}`,
-      icon: <FaCalendarWeek style={{ fontSize: 40, color: '#1a4f72' }} />,
+      icon: <FaCalendarWeek style={{ fontSize: 40, color: '#9E1B47' }} />,
       color: '#f8f9fa',
       textColor: '#00bcd4',
 
@@ -29,7 +29,7 @@ const Connect = () => {
       id: 3,
       title: 'This Month',
       value: `${dashboardstats?.stats?.thisMonthRegistrations || 0}`,
-      icon: <FaCalendarAlt style={{ fontSize: 40, color: '#1a4f72' }} />,
+      icon: <FaCalendarAlt style={{ fontSize: 40, color: '#9E1B47' }} />,
       color: '#f8f9fa',
       textColor: '#ff5a5f',
 
@@ -70,7 +70,7 @@ const Connect = () => {
         }}>
           <Typography variant="h4" sx={{
 
-            color: '#1a4f72',
+            color: '#9E1B47',
             textAlign: 'center',
             fontFamily: 'Playfair Display, serif !important',
             fontWeight: 700,
@@ -110,7 +110,7 @@ const Connect = () => {
                       p: 2,
                       mb: 2,
                       borderRadius: '50%',
-                      color: "#1a4f72"
+                      color: "#9E1B47"
                     }}>
                       {stat.icon}
                     </Box>
@@ -141,7 +141,7 @@ const Connect = () => {
       <Container sx={{ textAlign: 'center', marginTop: { xs: 0, md: 5 }, fontFamily: "Outfit" }}>
         <Typography variant="h4" sx={{
           marginBottom: 4,
-          color: '#1a4f72', fontFamily: 'Playfair Display, serif !important',
+          color: '#9E1B47', fontFamily: 'Playfair Display, serif !important',
           fontWeight: 700,
           fontSize: { xs: '1.60rem', md: '2.125rem' }
         }}>
@@ -164,7 +164,7 @@ const Connect = () => {
                     right: 10,
                     backgroundColor: '#D4AF37',
                     color: '#2C0A0A',
-                    border: '2px solid #1a4f72',
+                    border: '2px solid #9E1B47',
                   },
                 }}
               >
@@ -173,7 +173,7 @@ const Connect = () => {
                   sx={{
                     padding: 3,
                     borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
+                    background: 'linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
@@ -187,7 +187,7 @@ const Connect = () => {
                 </Paper>
               </Badge>
               <Box sx={{ marginTop: 2 }}>
-                <Typography variant="h6" sx={{ color: '#1a4f72', fontWeight: 700, fontFamily: "Outfit sans-serif" }}>
+                <Typography variant="h6" sx={{ color: '#9E1B47', fontWeight: 700, fontFamily: "Outfit sans-serif" }}>
                   {feature.title}
                 </Typography>
                 <Typography variant="body2" sx={{ color: '#777', fontFamily: "Outfit sans-serif" }}>

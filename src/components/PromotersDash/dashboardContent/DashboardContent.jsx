@@ -157,7 +157,7 @@ const DashboardContent = ({ sidebarData }) => {
 
         <Card
           sx={{
-            backgroundColor: '#e3f2fd',
+            backgroundColor: '#FCE4EC',
             borderRadius: '12px',
             boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
             minWidth: { xs: '100%', sm: '300px', md: '300px' },

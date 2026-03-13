@@ -33,7 +33,7 @@ const Members = () => {
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-        <CircularProgress size={40} thickness={4} sx={{ color: '#1a4f72' }} />
+        <CircularProgress size={40} thickness={4} sx={{ color: '#9E1B47' }} />
       </Box>
     );
   }
@@ -74,7 +74,7 @@ const Members = () => {
         <Typography
           variant="h4"
           sx={{
-            color: "#1a4f72",
+            color: "#9E1B47",
             textTransform: "capitalize",
             fontFamily: 'Playfair Display, serif !important',
             fontWeight: 700,
@@ -117,14 +117,14 @@ const Members = () => {
                       borderRadius: 2,
                       p: 4,
                       background: "linear-gradient(135deg, #ffffff 0%, #f0f6fc 100%)",
-                      boxShadow: "0 8px 24px rgba(26, 79, 114, 0.1)",
+                      boxShadow: "0 8px 24px rgba(158, 27, 71, 0.1)",
                       height: "380px",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "start",
                       alignItems: "start",
                       textAlign: "start",
-                      borderTop: '4px solid #1a4f72',
+                      borderTop: '4px solid #9E1B47',
                     }}
                   >
                     <Typography
@@ -133,7 +133,7 @@ const Members = () => {
                         textAlign: "left",
                         fontWeight: 700,
                         mb: 2,
-                        color: "#1a4f72",
+                        color: "#9E1B47",
                       }}
                     >
                       Girija ❤️ Kalyana
@@ -165,7 +165,7 @@ const Members = () => {
                               textAlign: "left",
                               fontWeight: 600,
                               width: "100px",
-                              color: "#1a4f72",
+                              color: "#9E1B47",
                             }}
                           >
                             {item.label}

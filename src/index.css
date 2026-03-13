@@ -4,32 +4,32 @@
 /* === CSS Variables === */
 :root {
   /* Brand Colors */
-  --brand-primary: #1a4f72;
-  --brand-secondary: #2196f3;
-  --brand-dark: #0f3047;
-  --brand-darker: #081d2d;
-  --brand-light: #e3f2fd;
+  --brand-primary: #9E1B47;
+  --brand-secondary: #E91E63;
+  --brand-dark: #4A0E2E;
+  --brand-darker: #2D081C;
+  --brand-light: #FCE4EC;
   --brand-gold: #ffb74d;
   /* Kept a subtle orange/gold for highlights if needed */
   --brand-gold-light: #ffcc80;
   --brand-gold-dark: #f57c00;
 
   /* Gradients */
-  --brand-gradient: linear-gradient(135deg, #1a4f72 0%, #2196f3 100%);
-  --brand-gradient-dark: linear-gradient(135deg, #0f3047 0%, #1a4f72 100%);
+  --brand-gradient: linear-gradient(135deg, #9E1B47 0%, #E91E63 100%);
+  --brand-gradient-dark: linear-gradient(135deg, #4A0E2E 0%, #9E1B47 100%);
   --brand-gold-gradient: linear-gradient(135deg, #ffb74d 0%, #ffcc80 100%);
-  --brand-dark-gradient: linear-gradient(160deg, #081d2d 0%, #0f3047 50%, #1a4f72 100%);
+  --brand-dark-gradient: linear-gradient(160deg, #2D081C 0%, #4A0E2E 50%, #9E1B47 100%);
 
   /* Text */
   --text-primary: #1a1a1a;
-  --text-secondary: #1a4f72;
+  --text-secondary: #9E1B47;
   --text-muted: #666666;
   --text-white: #ffffff;
 
   /* UI */
-  --shadow-sm: 0 2px 8px rgba(26, 79, 114, 0.15);
-  --shadow-md: 0 4px 24px rgba(26, 79, 114, 0.2);
-  --shadow-lg: 0 8px 48px rgba(26, 79, 114, 0.25);
+  --shadow-sm: 0 2px 8px rgba(158, 27, 71, 0.15);
+  --shadow-md: 0 4px 24px rgba(158, 27, 71, 0.2);
+  --shadow-lg: 0 8px 48px rgba(158, 27, 71, 0.25);
   --shadow-gold: 0 4px 20px rgba(255, 183, 77, 0.3);
 
   /* Fonts */
@@ -71,21 +71,21 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #e3f2fd;
+  background: #FCE4EC;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #1a4f72, #2196f3);
+  background: linear-gradient(180deg, #9E1B47, #E91E63);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0f3047;
+  background: #4A0E2E;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #1a4f72 #e3f2fd;
+  scrollbar-color: #9E1B47 #FCE4EC;
 }
 
 /* === Typography Utilities === */
@@ -101,6 +101,6 @@ body {
 
 /* === Selection === */
 ::selection {
-  background: rgba(26, 79, 114, 0.2);
+  background: rgba(158, 27, 71, 0.2);
   color: var(--brand-dark);
 }

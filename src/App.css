@@ -26,6 +26,10 @@ body {
   min-height: 100vh;
 }
 
+.footer {
+  margin-top: auto;
+}
+
 /* Toastify overrides for brand theme */
 .Toastify__toast {
   border-radius: 10px !important;

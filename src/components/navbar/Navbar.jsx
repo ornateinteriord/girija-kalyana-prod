@@ -267,7 +267,7 @@ const Navbar = () => {
                 size={isMobile ? "medium" : "large"}
                 onClick={handleLogout}
                 sx={{
-                  background: "linear-gradient(135deg, #4b7a9c 0%, #1a4f72 100%)",
+                  background: "linear-gradient(135deg, #4b7a9c 0%, #9E1B47 100%)",
                   border: "1px solid rgba(255,255,255,0.4)",
                   minWidth: "110px",
                   color: "#fff",
@@ -278,8 +278,8 @@ const Navbar = () => {
                   display: { xs: "none", sm: "inline-flex" },
                   transition: "all 0.25s ease",
                   "&:hover": {
-                    background: "linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)",
-                    boxShadow: "0 4px 16px rgba(26,79,114,0.5)",
+                    background: "linear-gradient(135deg, #4A0E2E 0%, #9E1B47 100%)",
+                    boxShadow: "0 4px 16px rgba(158, 27, 71,0.5)",
                     transform: "translateY(-1px)",
                   },
                 }}
@@ -325,7 +325,7 @@ const Navbar = () => {
         sx={{
           "& .MuiDrawer-paper": {
             width: "290px",
-            background: 'linear-gradient(180deg, #1a4f72 0%, #0f3047 100%)',
+            background: 'linear-gradient(180deg, #9E1B47 0%, #4A0E2E 100%)',
             color: "#fff",
             borderRight: "1px solid rgba(255,255,255,0.2)",
           },
@@ -394,7 +394,7 @@ const Navbar = () => {
                   toggleMobileMenu();
                 }}
                 sx={{
-                  background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
+                  background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
                   color: "#fff",
                   fontWeight: 600,
                   height: "44px",
@@ -403,7 +403,7 @@ const Navbar = () => {
                   border: "1px solid rgba(212,175,55,0.3)",
                   transition: "all 0.25s ease",
                   "&:hover": {
-                    background: "linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)",
+                    background: "linear-gradient(135deg, #4A0E2E 0%, #9E1B47 100%)",
                     transform: "translateY(-1px)",
                   },
                 }}
@@ -451,14 +451,14 @@ const Navbar = () => {
           sx: {
             borderRadius: "16px",
             overflow: "hidden",
-            boxShadow: "0 20px 60px rgba(26,79,114,0.25)",
+            boxShadow: "0 20px 60px rgba(158, 27, 71,0.25)",
           }
         }}
       >
         {/* Gradient Header */}
         <Box
           sx={{
-            background: "linear-gradient(135deg, #081d2d 0%, #1a4f72 100%)",
+            background: "linear-gradient(135deg, #2D081C 0%, #9E1B47 100%)",
             py: 3.5,
             px: 3,
             display: "flex",
@@ -510,20 +510,20 @@ const Navbar = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Email sx={{ color: "#1a4f72", fontSize: 20 }} />
+                    <Email sx={{ color: "#9E1B47", fontSize: 20 }} />
                   </InputAdornment>
                 ),
               }}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "10px",
-                  "&:hover fieldset": { borderColor: "#1a4f72" },
+                  "&:hover fieldset": { borderColor: "#9E1B47" },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#1a4f72",
-                    boxShadow: "0 0 0 3px rgba(26,79,114,0.1)",
+                    borderColor: "#9E1B47",
+                    boxShadow: "0 0 0 3px rgba(158, 27, 71,0.1)",
                   },
                 },
-                "& label.Mui-focused": { color: "#1a4f72" },
+                "& label.Mui-focused": { color: "#9E1B47" },
               }}
             />
             <TextField
@@ -538,7 +538,7 @@ const Navbar = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Lock sx={{ color: "#1a4f72", fontSize: 20 }} />
+                    <Lock sx={{ color: "#9E1B47", fontSize: 20 }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
@@ -554,13 +554,13 @@ const Navbar = () => {
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "10px",
-                  "&:hover fieldset": { borderColor: "#1a4f72" },
+                  "&:hover fieldset": { borderColor: "#9E1B47" },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#1a4f72",
-                    boxShadow: "0 0 0 3px rgba(26,79,114,0.1)",
+                    borderColor: "#9E1B47",
+                    boxShadow: "0 0 0 3px rgba(158, 27, 71,0.1)",
                   },
                 },
-                "& label.Mui-focused": { color: "#1a4f72" },
+                "& label.Mui-focused": { color: "#9E1B47" },
               }}
             />
             <Typography
@@ -568,7 +568,7 @@ const Navbar = () => {
               sx={{
                 cursor: "pointer",
                 textAlign: "right",
-                color: "#1a4f72",
+                color: "#9E1B47",
                 fontWeight: 500,
                 "&:hover": { textDecoration: "underline" },
               }}
@@ -591,12 +591,12 @@ const Navbar = () => {
               fontWeight: 700,
               textTransform: "none",
               fontSize: "1rem",
-              background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
-              boxShadow: "0 4px 15px rgba(26,79,114,0.35)",
+              background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
+              boxShadow: "0 4px 15px rgba(158, 27, 71,0.35)",
               transition: "all 0.3s ease",
               "&:hover": {
-                background: "linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)",
-                boxShadow: "0 8px 24px rgba(26,79,114,0.45)",
+                background: "linear-gradient(135deg, #4A0E2E 0%, #9E1B47 100%)",
+                boxShadow: "0 8px 24px rgba(158, 27, 71,0.45)",
                 transform: "translateY(-2px)",
               },
               "&:disabled": { background: "#ccc" },
@@ -610,7 +610,7 @@ const Navbar = () => {
             <Box
               component="span"
               sx={{
-                color: "#1a4f72", cursor: "pointer", fontWeight: 600,
+                color: "#9E1B47", cursor: "pointer", fontWeight: 600,
                 "&:hover": { textDecoration: "underline" }
               }}
               onClick={() => { handleClose(); navigate("/register"); }}
@@ -631,14 +631,14 @@ const Navbar = () => {
           sx: {
             borderRadius: "16px",
             overflow: "hidden",
-            boxShadow: "0 20px 60px rgba(26,79,114,0.25)",
+            boxShadow: "0 20px 60px rgba(158, 27, 71,0.25)",
           }
         }}
       >
         {/* Gradient Header */}
         <Box
           sx={{
-            background: "linear-gradient(135deg, #081d2d 0%, #1a4f72 100%)",
+            background: "linear-gradient(135deg, #2D081C 0%, #9E1B47 100%)",
             py: 3,
             px: 3,
             display: "flex",
@@ -788,9 +788,9 @@ const Navbar = () => {
               fontWeight: 500,
               textTransform: "capitalize",
               fontSize: "1rem",
-              backgroundColor: '#1a4f72',
+              backgroundColor: '#9E1B47',
               "&:hover": {
-                background: 'linear-gradient(135deg, #0f3047 0%, #1a4f72 100%)'
+                background: 'linear-gradient(135deg, #4A0E2E 0%, #9E1B47 100%)'
               }
             }}
           >

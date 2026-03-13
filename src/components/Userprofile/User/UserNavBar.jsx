@@ -266,7 +266,7 @@ const UserNavBar = () => {
           position="fixed"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
-            background: "#1a4f72",
+            background: "#9E1B47",
             height: "60px",
           }}
         >
@@ -372,7 +372,7 @@ const UserNavBar = () => {
             [`& .MuiDrawer-paper`]: {
               width: isSidebarOpen ? drawerWidth : 0,
               boxSizing: "border-box",
-              background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
+              background: 'linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)',
               color: "#fff",
               transition: "width 0.6s ease, opacity 0.6s ease",
               opacity: isSidebarOpen ? 1 : 0,

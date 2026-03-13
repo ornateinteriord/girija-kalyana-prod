@@ -123,11 +123,11 @@ const ProfileDialog = ({
           text: "Express Interest",
           disabled: false,
           customStyle: {
-            background: "linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)",
-            boxShadow: "0 4px 14px rgba(26,79,114,0.35)",
+            background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
+            boxShadow: "0 4px 14px rgba(158, 27, 71,0.35)",
             "&:hover": {
-              background: "linear-gradient(135deg, #2196f3 0%, #1a4f72 100%)",
-              boxShadow: "0 6px 20px rgba(26,79,114,0.45)",
+              background: "linear-gradient(135deg, #E91E63 0%, #9E1B47 100%)",
+              boxShadow: "0 6px 20px rgba(158, 27, 71,0.45)",
               transform: "translateY(-1px)",
             },
           },
@@ -204,14 +204,14 @@ const ProfileDialog = ({
             maxHeight: { xs: "calc(100% - 16px)", sm: "calc(100% - 32px)" },
             borderRadius: "20px",
             overflow: "hidden",
-            boxShadow: "0 24px 64px rgba(26,79,114,0.2)",
+            boxShadow: "0 24px 64px rgba(158, 27, 71,0.2)",
           },
         }}
       >
         <DialogContent
           sx={{
             p: 0,
-            background: 'linear-gradient(135deg, #1a4f72 0%, #2196f3 100%)',
+            background: 'linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)',
             overflowY: "auto",
             maxHeight: { xs: "90vh", sm: "85vh" },
           }}
@@ -230,7 +230,7 @@ const ProfileDialog = ({
               "&:hover": { background: "#fff" },
             }}
           >
-            <CloseIcon sx={{ fontSize: 20, color: "#1a4f72" }} />
+            <CloseIcon sx={{ fontSize: 20, color: "#9E1B47" }} />
           </IconButton>
 
           <Box
@@ -259,16 +259,16 @@ const ProfileDialog = ({
                   width: "100%",
                   background: "#fff",
                   borderRadius: "16px",
-                  boxShadow: "0 4px 20px rgba(26,79,114,0.1)",
+                  boxShadow: "0 4px 20px rgba(158, 27, 71,0.1)",
                   overflow: "hidden",
-                  border: "1px solid rgba(26,79,114,0.08)",
+                  border: "1px solid rgba(158, 27, 71,0.08)",
                 }}
               >
                 {/* Gradient top strip */}
                 <Box
                   sx={{
                     height: 8,
-                    background: "linear-gradient(90deg, #1a4f72, #2196f3, #64b5f6)",
+                    background: "linear-gradient(90deg, #9E1B47, #E91E63, #64b5f6)",
                   }}
                 />
                 <Box sx={{ p: 2.5, textAlign: "center" }}>
@@ -276,9 +276,9 @@ const ProfileDialog = ({
                     sx={{
                       display: "inline-block",
                       borderRadius: "50%",
-                      background: "linear-gradient(135deg, #1a4f72, #64b5f6)",
+                      background: "linear-gradient(135deg, #9E1B47, #64b5f6)",
                       p: "3px",
-                      boxShadow: "0 4px 16px rgba(26,79,114,0.3)",
+                      boxShadow: "0 4px 16px rgba(158, 27, 71,0.3)",
                       mb: 2,
                     }}
                   >
@@ -291,7 +291,7 @@ const ProfileDialog = ({
                         height: { xs: 130, md: 150 },
                         objectFit: "cover",
                         display: "block",
-                        border: '4px solid #1a4f72',
+                        border: '4px solid #9E1B47',
                       }}
                     />
                   </Box>
@@ -337,8 +337,8 @@ const ProfileDialog = ({
                   display: "flex",
                   alignItems: "center",
                   gap: 1,
-                  boxShadow: "0 2px 10px rgba(26,79,114,0.08)",
-                  border: "1px solid rgba(26,79,114,0.08)",
+                  boxShadow: "0 2px 10px rgba(158, 27, 71,0.08)",
+                  border: "1px solid rgba(158, 27, 71,0.08)",
                 }}
               >
                 <RiVerifiedBadgeFill style={{ fontSize: 20, color: "#1976d2", flexShrink: 0 }} />
@@ -356,8 +356,8 @@ const ProfileDialog = ({
                   background: "#fff",
                   borderRadius: "12px",
                   mb: 2,
-                  boxShadow: "0 2px 10px rgba(26,79,114,0.08)",
-                  border: "1px solid rgba(26,79,114,0.08)",
+                  boxShadow: "0 2px 10px rgba(158, 27, 71,0.08)",
+                  border: "1px solid rgba(158, 27, 71,0.08)",
                   overflow: "hidden",
                 }}
               >
@@ -368,7 +368,7 @@ const ProfileDialog = ({
                   scrollButtons="auto"
                   sx={{
                     "& .MuiTabs-indicator": {
-                      backgroundColor: "#1a4f72",
+                      backgroundColor: "#9E1B47",
                       height: 3,
                       borderRadius: "3px 3px 0 0",
                     },
@@ -378,9 +378,9 @@ const ProfileDialog = ({
                       padding: { xs: "10px 12px", sm: "12px 18px" },
                       textTransform: "none",
                       fontWeight: 500,
-                      color: '#1a4f72',
+                      color: '#9E1B47',
                       "&.Mui-selected": {
-                        color: "#1a4f72",
+                        color: "#9E1B47",
                         fontWeight: 700,
                       },
                       "&:hover": {
@@ -400,8 +400,8 @@ const ProfileDialog = ({
                   p: { xs: 1.5, sm: 2.5 },
                   background: "#fff",
                   borderRadius: "12px",
-                  boxShadow: "0 2px 10px rgba(26,79,114,0.08)",
-                  border: "1px solid rgba(26,79,114,0.08)",
+                  boxShadow: "0 2px 10px rgba(158, 27, 71,0.08)",
+                  border: "1px solid rgba(158, 27, 71,0.08)",
                   minHeight: { xs: 220, sm: 280 },
                   maxHeight: { xs: "38vh", sm: "48vh", md: "55vh" },
                   overflowY: "auto",
@@ -422,7 +422,7 @@ const ProfileDialog = ({
               px: { xs: 2, sm: 3 },
               py: 2,
               background: "#fff",
-              borderTop: "1px solid rgba(26,79,114,0.1)",
+              borderTop: "1px solid rgba(158, 27, 71,0.1)",
               gap: 1.5,
             }}
           >
@@ -462,12 +462,12 @@ const ProfileDialog = ({
                 px: 3,
                 py: 1,
                 fontSize: { xs: "0.85rem", sm: "0.92rem" },
-                color: "#1a4f72",
-                borderColor: "rgba(26,79,114,0.3)",
+                color: "#9E1B47",
+                borderColor: "rgba(158, 27, 71,0.3)",
                 width: { xs: "100%", sm: "auto" },
                 "&:hover": {
-                  borderColor: '#1a4f72',
-                  background: "rgba(26,79,114,0.04)",
+                  borderColor: '#9E1B47',
+                  background: "rgba(158, 27, 71,0.04)",
                 },
               }}
             >
