@@ -270,13 +270,13 @@ export const useImageKitUpload = (username) => {
     mutationFn: async (file) => {
       // 1. Get signature from backend
       const authRes = await get("/image-kit-auth"); 
-      const { signature, expire, token } = authRes;
+      const { signature, expire, token, publicKey } = authRes;
 
       // 2. Prepare form data
       const data = new FormData();
       data.append("file", file);
+        data.append("publicKey", publicKey);
        data.append("fileName", username); 
-      data.append("publicKey", import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY);
       data.append("signature", signature);
       data.append("expire", expire);
       data.append("token", token);
@@ -337,3 +337,4 @@ export const useGetConnections = () => {
     },
   });
 };
+
