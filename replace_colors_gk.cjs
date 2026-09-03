@@ -31,6 +31,14 @@ const rgba1Replacement = 'rgba(158, 27, 71,';
 const rgba2Regex = /rgba\(33,\s*150,\s*243,/gi;
 const rgba2Replacement = 'rgba(233, 30, 99,';
 
+// #0B192C -> #2D081C (Very Dark Burgundy)
+const color6Regex = /#0B192C/gi;
+const color6Replacement = '#2D081C'; 
+
+// #1A365D -> #4A0E2E (Deep Burgundy)
+const color7Regex = /#1A365D/gi;
+const color7Replacement = '#4A0E2E'; 
+
 function walk(dir) {
     let results = [];
     const list = fs.readdirSync(dir);
@@ -59,7 +67,9 @@ files.forEach(file => {
             .replace(color4Regex, color4Replacement)
             .replace(color5Regex, color5Replacement)
             .replace(rgba1Regex, rgba1Replacement)
-            .replace(rgba2Regex, rgba2Replacement);
+            .replace(rgba2Regex, rgba2Replacement)
+            .replace(color6Regex, color6Replacement)
+            .replace(color7Regex, color7Replacement);
             
         if (content !== newContent) {
             fs.writeFileSync(file, newContent, 'utf8');

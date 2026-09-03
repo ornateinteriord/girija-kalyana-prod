@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+// Cashfree JS SDK v3 is loaded via <script> tag in index.html (window.Cashfree)
 import {
   Box,
   Paper,
@@ -13,64 +15,37 @@ import {
   Avatar,
   useMediaQuery,
   useTheme,
-  InputAdornment,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  CircularProgress,
 } from "@mui/material";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import rawJsonData from "../Userprofile/profile/eduction/jsondata/data.json";
+
 import Navbar from "../navbar/Navbar";
 import Footer from "../footer/Footer";
 import { toast } from "react-toastify";
-import { useSignupMutation, useCheckPromocode } from "../api/Auth";
-
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSignupMutation } from "../api/Auth";
+import { post } from "../api/authHooks";
+import { useLocation } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { LoadingComponent } from "../../App";
 import CustomAutocomplete from "../Autocomplete/CustomAutocomplete";
-import { load } from "@cashfreepayments/cashfree-js";
-import { post } from "../api/authHooks";
-import { membershipOptions } from "../../assets/memberShipOptions/MemberShipPlans";
 
 const datas = rawJsonData.reduce((acc, curr) => ({ ...acc, ...curr }), {});
 
 const Register = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { mutate, isPending } = useSignupMutation();
-
-  // Store planType in state so it stays stable across re-renders
   const searchParams = new URLSearchParams(location.search);
-  const [planType] = useState(() => searchParams.get("type") || null);
-
-
-
-  // Promo code state
-  const [promocode, setPromocode] = useState(searchParams.get("promocode") || "");
-  const [isPromoApplied, setIsPromoApplied] = useState(!!searchParams.get("promocode"));
-  const [promoDialogOpen, setPromoDialogOpen] = useState(false);
-
-  const checkPromocodeMutation = useCheckPromocode();
+  const planType = searchParams.get("type");
 
   const [citySuggestions, setCitySuggestions] = useState(datas.cities || []);
   const [talukSuggestions, setTalukSuggestions] = useState([]);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
 
-  const getUserRole = () => {
-    console.log("getUserRole called with planType:", planType);
+  const getUserRole = useCallback(() => {
     switch (planType) {
       case "PremiumUser":
         return "PremiumUser";
@@ -79,7 +54,7 @@ const Register = () => {
       default:
         return "FreeUser";
     }
-  };
+  }, [planType]);
 
   const initialFormState = {
     user_role: getUserRole(),
@@ -107,38 +82,30 @@ const Register = () => {
     mobile_no: "",
     password: "",
     confirmPassword: "",
+    refered_by: "",
+    refered_name: "",
   };
 
-  const [formData, setFormData] = useState(() => ({
-    user_role: getUserRole(),
-    marital_status: "",
-    profilefor: "",
-    gender: "",
-    date_of_birth: "",
-    age: "",
-    educational_qualification: "",
-    occupation: "",
-    income_per_month: "",
-    country: "",
-    mother_tongue: "",
-    name_of_parent: "",
-    parent_name: "",
-    religion: "Hindu",
-    caste: "",
-    address: "",
-    occupation_country: "",
-    state: "",
-    city: "",
-    first_name: "",
-    last_name: "",
-    username: "",
-    mobile_no: "",
-    password: "",
-    confirmPassword: "",
-  }));
+  const [formData, setFormData] = useState(initialFormState);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [promoterName, setPromoterName] = useState("");
+  const [promoterError, setPromoterError] = useState("");
+  const [isValidatingPromoter, setIsValidatingPromoter] = useState(false);
+
+  // Determine display amount for selected plan
+  const getPlanAmount = () => {
+    switch (planType) {
+      case "PremiumUser":
+        return 1499;
+      case "SilverUser":
+        return 999;
+      default:
+        return 0;
+    }
+  };
+  const displayAmount = getPlanAmount();
 
   useEffect(() => {
-    console.log("planType changed to:", planType);
     setFormData((prev) => ({
       ...prev,
       user_role: getUserRole(),
@@ -166,6 +133,11 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "refered_by") {
+      setFormData((prev) => ({ ...prev, [name]: value.toUpperCase() }));
+      return;
+    }
 
     // For mobile number field - only allow numbers up to 10 digits
     if (name === "mobile_no") {
@@ -208,211 +180,176 @@ const Register = () => {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
 
-  const handleClear = () => {
-    setFormData(initialFormState);
+  const handleVerifyPromoter = async () => {
+    const code = formData.refered_by?.trim().toUpperCase();
+    if (code !== formData.refered_by) {
+      setFormData((prev) => ({ ...prev, refered_by: code || "" }));
+    }
+    if (!code) {
+      setPromoterError("Please enter a Sponsor Code first");
+      setPromoterName("");
+      return;
+    }
+    setIsValidatingPromoter(true);
+    setPromoterError("");
+    setPromoterName("");
+    setFormData((prev) => ({ ...prev, refered_name: "" }));
+    try {
+      const response = await post("/api/promoter/promocheck", { promocode: code });
+      if (response?.success && response?.data?.promoterName) {
+        setPromoterName(response.data.promoterName);
+        setFormData((prev) => ({ ...prev, refered_name: response.data.promoterName }));
+        toast.success(`Sponsor verified: ${response.data.promoterName}`);
+      } else {
+        setPromoterError(response?.message || "Invalid Sponsor Code");
+        toast.error(response?.message || "Invalid Sponsor Code");
+      }
+    } catch (error) {
+      const msg = error?.response?.data?.message || "Invalid Sponsor Code or inactive promoter";
+      setPromoterError(msg);
+      toast.error(msg);
+    } finally {
+      setIsValidatingPromoter(false);
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleClear = () => {
+    setFormData(initialFormState);
+    setPromoterName("");
+    setPromoterError("");
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
+    // --- Field Validation ---
+    if (!formData.first_name?.trim()) {
+      toast.error("Please enter your first name");
+      return;
+    }
     if (!/^[0-9]{10}$/.test(formData.mobile_no)) {
       toast.error("Please enter a valid 10-digit mobile number");
       return;
     }
-
+    if (!formData.username?.trim()) {
+      toast.error("Please enter your email");
+      return;
+    }
+    if (!formData.password || formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
 
-    // For paid plans, show payment dialog instead of direct registration
-    const isPaidPlan = planType === "PremiumUser" || planType === "SilverUser" ||
-      formData.user_role === "PremiumUser" || formData.user_role === "SilverUser";
+    const planName = getUserRole();
+    let amount = 0;
+    if (planName === "PremiumUser") amount = 1499;
+    else if (planName === "SilverUser") amount = 999;
 
-    if (isPaidPlan) {
-      setPaymentDialogOpen(true);
-    } else {
-      // For free users, proceed with normal registration
+    // --- Free User: Register directly ---
+    if (amount === 0) {
+      mutate(formData, {
+        onSuccess: () => toast.success("Registered successfully!"),
+        onError: (err) =>
+          toast.error(err?.response?.data?.error || "Registration failed. Try again."),
+      });
+      return;
+    }
+
+    // --- Paid User: Create order → Open Cashfree Checkout ---
+    (async () => {
       try {
-        mutate(formData, {
-          onSuccess: () => {
-            toast.success("Registration successful");
-          },
+        setIsProcessingPayment(true);
+
+        // Guard: Make sure Cashfree SDK is loaded (from index.html CDN script)
+        if (typeof window.Cashfree !== "function") {
+          toast.error(
+            "Payment SDK not loaded. Please check your internet connection and refresh the page."
+          );
+          return;
+        }
+
+        const orderId = `REG-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+        const BACKEND_URL = import.meta.env.VITE_API_URL || "";
+
+        const payload = {
+          orderId,
+          orderAmount: amount,
+          customerName: `${formData.first_name} ${formData.last_name || ""}`.trim(),
+          customerEmail: formData.username.trim().toLowerCase(),
+          customerPhone: formData.mobile_no,
+          planType: planName,
+          context: "registration",
+          originalAmount: amount,
+        };
+
+        const resp = await axios.post(`${BACKEND_URL}/api/payment/create-order`, payload, {
+          headers: { "Content-Type": "application/json" },
+          timeout: 30000,
         });
-      } catch (error) {
-        console.error("Registration error:", error);
+
+        const data = resp.data || {};
+        const sessionId = data.payment_session_id;
+        const cashfreeEnv = data.cashfree_env === "production" ? "production" : "sandbox";
+
+        if (!sessionId) {
+          toast.error("Could not initiate payment. Please try again.");
+          return;
+        }
+
+        // Open Cashfree hosted checkout page
+        const cashfree = window.Cashfree({ mode: cashfreeEnv });
+        cashfree.checkout({
+          paymentSessionId: sessionId,
+          redirectTarget: "_self", // redirects back to return_url after payment
+        });
+
+      } catch (err) {
+        console.error("Payment error:", err);
+        const message =
+          err?.response?.data?.error ||
+          err?.message ||
+          "Failed to start payment. Please try again.";
+        toast.error(message);
+      } finally {
+        setIsProcessingPayment(false);
       }
-    }
+    })();
   };
 
-  const handlePaymentConfirm = async () => {
-    setIsProcessingPayment(true);
-    setPaymentDialogOpen(false);
-
-    try {
-      // Step 1: Create payment order FIRST (before registering user)
-      const orderId = "order_" + Date.now();
-      const planName = planType === "PremiumUser" ? "PREMIUM MEMBERSHIP" : "SILVER MEMBERSHIP";
-      const plan = membershipOptions.find(p => p.name === planName);
-
-      const originalAmount = parseInt(plan.discountedPrice.replace('₹', '').replace(',', ''));
-      const finalAmount = isPromoApplied ? Math.max(originalAmount - 100, 0) : originalAmount;
-      const planTypeCode = planType === "PremiumUser" ? 'premium' : 'silver';
-
-      const orderResponse = await post("/api/payment/create-order", {
-        orderId,
-        orderAmount: finalAmount,
-        customerName: formData.first_name + " " + formData.last_name,
-        customerEmail: formData.username,
-        customerPhone: formData.mobile_no,
-        planType: planTypeCode,
-        promocode: promocode || null,
-        originalAmount,
-        context: "registration"
-      });
-
-      if (!orderResponse?.payment_session_id) {
-        throw new Error(orderResponse?.error || "Failed to create payment order. Please try again.");
-      }
-
-      // Step 2: Order created successfully — now register user as inactive
-      const registrationResponse = await post("/api/auth/signup", {
-        ...formData,
-        status: "inactive"
-      });
-
-      if (!registrationResponse.success) {
-        throw new Error(registrationResponse.message || "Registration failed. Please try again.");
-      }
-
-      // Step 3: Store order details for post-payment verification
-      localStorage.setItem('pendingOrderId', orderId);
-      localStorage.setItem('pendingOrderEmail', formData.username);
-      localStorage.setItem(`orderTimestamp_${orderId}`, Date.now().toString());
-
-      // Step 4: Open Cashfree checkout (redirects user to payment page)
-      const cashfreeMode = orderResponse.cashfree_env || "sandbox";
-      const cashfree = await load({ mode: cashfreeMode });
-      cashfree.checkout({
-        paymentSessionId: orderResponse.payment_session_id,
-        redirectTarget: "_self"  // Same tab
-      });
-
-    } catch (error) {
-      console.error("Payment initiation failed:", error);
-
-      // Extract friendly message from backend response or use fallbacks
-      const status = error?.response?.status;
-      const backendMessage = error?.response?.data?.message;
-
-      let toastMessage;
-      if (backendMessage) {
-        toastMessage = backendMessage; // Use backend's message directly
-      } else if (status === 409) {
-        toastMessage = "This email is already registered. Please use a different email.";
-      } else if (status === 400) {
-        toastMessage = "Invalid details. Please check your form and try again.";
-      } else if (status === 500) {
-        toastMessage = "Server error. Please try again later.";
-      } else {
-        toastMessage = "Failed to complete registration. Please try again.";
-      }
-
-      toast.error(toastMessage);
-      setIsProcessingPayment(false);
-    }
-  };
 
   const isValidAge = (value) => {
     if (value === "") return true; // Allow empty field
     return /^\d+$/.test(value); // Check if it's only digits
   };
 
-  // Calculate plan amounts for display using membershipOptions
-  const getPlanDetails = () => {
-    if (planType === "PremiumUser") {
-      const plan = membershipOptions.find(p => p.name === 'PREMIUM MEMBERSHIP');
-      const originalPrice = parseInt(plan.discountedPrice.replace('₹', '').replace(',', ''));
-      const discountedPrice = isPromoApplied ? Math.max(originalPrice - 100, 0) : originalPrice;
-      return { originalPrice, discountedPrice, displayPrice: plan.discountedPrice };
-    } else if (planType === "SilverUser") {
-      const plan = membershipOptions.find(p => p.name === 'SILVER MEMBERSHIP');
-      const originalPrice = parseInt(plan.discountedPrice.replace('₹', '').replace(',', ''));
-      const discountedPrice = isPromoApplied ? Math.max(originalPrice - 100, 0) : originalPrice;
-      return { originalPrice, discountedPrice, displayPrice: plan.discountedPrice };
-    }
-    return { originalPrice: 0, discountedPrice: 0, displayPrice: '₹0' };
-  };
-
-  const { originalPrice, discountedPrice } = getPlanDetails();
-
-  // Handle promocode application
-  const handleApplyPromocode = () => {
-    if (!promocode.trim()) {
-      return;
-    }
-
-    checkPromocodeMutation.mutate(
-      { promocode: promocode.trim() },
-      {
-        onSuccess: (response) => {
-          setIsPromoApplied(true);
-          // Update URL with promocode without reloading the page
-          const newSearchParams = new URLSearchParams(location.search);
-          newSearchParams.set("promocode", promocode.trim());
-          navigate(`${location.pathname}?${newSearchParams.toString()}`, { replace: true });
-          setPromoDialogOpen(false);
-          toast.success("Promocode applied successfully! ₹100 discount applied.");
-        },
-        onError: (error) => {
-          toast.error(error?.response?.data?.message || "Invalid promocode");
-          setIsPromoApplied(false);
-        }
-      }
-    );
-  };
-
-  const handleRemovePromocode = () => {
-    setPromocode("");
-    setIsPromoApplied(false);
-    // Remove promocode from URL
-    const newSearchParams = new URLSearchParams(location.search);
-    newSearchParams.delete("promocode");
-    navigate(`${location.pathname}?${newSearchParams.toString()}`, { replace: true });
-  };
-
-  const handleOpenPromoDialog = () => {
-    setPromoDialogOpen(true);
-  };
-
-  const handleClosePromoDialog = () => {
-    setPromoDialogOpen(false);
-  };
-
-
-
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+    <>
       <Navbar />
       {isPending && <LoadingComponent />}
       <Box
         sx={{
-          flex: 1,
+          minHeight: "100vh",
           py: 4,
           px: { xs: 1, sm: 2 },
           mt: "10px",
-          width: isMobile ? "100%" : "85%",
+          width: isMobile ? "100%" : "88%",
           display: "flex",
           justifyContent: "center",
-          alignSelf: "center",
+          justifySelf: "center",
+          background: "linear-gradient(135deg, #faf5ff 0%, #f9f0ff 100%)",
+          borderRadius: 3,
         }}
       >
         <Box
           component="form"
           onSubmit={handleSubmit}
           sx={{
-            p: { xs: 2, sm: 4, md: 6 },
-            borderRadius: 2,
+            p: { xs: 2, sm: 4, md: 5 },
+            borderRadius: 3,
             width: "100%",
           }}
         >
@@ -421,10 +358,13 @@ const Register = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              mb: 2,
+              mb: 3,
               flexDirection: { xs: "column", sm: "row" },
               gap: 1,
               width: "100%",
+              pb: 2,
+              borderBottom: "2px solid",
+              borderColor: "rgba(94,4,118,0.15)",
             }}
           >
             <Box
@@ -435,7 +375,7 @@ const Register = () => {
                 mt: isMobile ? "15px" : "",
               }}
             >
-              <Avatar sx={{ bgcolor: "primary.main" }}>
+              <Avatar sx={{ bgcolor: "#2D081C" }}>
                 <HowToRegIcon />
               </Avatar>
               <Typography
@@ -447,152 +387,97 @@ const Register = () => {
               </Typography>
             </Box>
 
-            <Box
-              sx={{
-                fontSize: { xs: "18px", sm: "22px" },
-                backgroundColor: "transparent",
-                color: "black",
-                py: 1,
-                borderRadius: 1,
-                fontWeight: 500,
-              }}
-            >
-              Registering as:{" "}
+            {displayAmount > 0 && (
               <Box
-                component="span"
                 sx={{
-                  color: "primary.main",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.5,
+                  background: "linear-gradient(135deg, #2D081C, #4A0E2E)",
+                  color: "#fff",
+                  py: 1,
+                  px: 2.5,
+                  borderRadius: 2,
+                  fontWeight: 600,
+                  fontSize: { xs: "14px", sm: "16px" },
+                  boxShadow: "0 4px 14px rgba(94,4,118,0.35)",
                 }}
               >
+                <Box component="span" sx={{ opacity: 0.85, fontSize: "13px" }}>Plan:</Box>
                 {getUserRole()}
+                <Box
+                  component="span"
+                  sx={{
+                    ml: 1,
+                    background: "rgba(255,255,255,0.2)",
+                    px: 1.5,
+                    py: 0.3,
+                    borderRadius: 1,
+                    fontSize: "14px",
+                  }}
+                >
+                  ₹{displayAmount}
+                </Box>
               </Box>
-            </Box>
+            )}
+            {displayAmount === 0 && (
+              <Box
+                sx={{
+                  fontSize: { xs: "14px", sm: "16px" },
+                  color: "#555",
+                  py: 0.5,
+                  px: 2,
+                  borderRadius: 2,
+                  fontWeight: 500,
+                  border: "1px solid rgba(94,4,118,0.2)",
+                  background: "rgba(94,4,118,0.04)",
+                }}
+              >
+                Plan: <Box component="span" sx={{ color: "#2D081C", fontWeight: 600 }}>Free</Box>
+              </Box>
+            )}
           </Box>
-
-          {/* Plan Info Banner — shown only for paid plans */}
-          {planType && (planType === "PremiumUser" || planType === "SilverUser") && (
-            <Box
-              sx={{
-                mb: 3,
-                p: { xs: 2, sm: 3 },
-                borderRadius: 3,
-                background: "linear-gradient(135deg, #9E1B47 0%, #E91E63 100%)",
-                color: "#fff",
-                boxShadow: 4,
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* Decorative circle */}
-              <Box sx={{
-                position: "absolute", right: -20, top: -20,
-                width: 100, height: 100, borderRadius: "50%",
-                background: "rgba(255,255,255,0.08)"
-              }} />
-
-              <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "center" }, gap: 2 }}>
-                {/* Left — Plan name & pricing */}
-                <Box>
-                  <Typography variant="body2" sx={{ opacity: 0.8, mb: 0.5, textTransform: "uppercase", letterSpacing: 1 }}>
-                    Selected Plan
-                  </Typography>
-                  <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
-                    {planType === "PremiumUser" ? "⭐ Premium Membership" : "🥈 Silver Membership"}
-                  </Typography>
-
-                  {/* Pricing */}
-                  <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, flexWrap: "wrap" }}>
-                    {isPromoApplied ? (
-                      <>
-                        <Typography variant="body1" sx={{ textDecoration: "line-through", opacity: 0.65 }}>
-                          ₹{originalPrice}
-                        </Typography>
-                        <Typography variant="body2" sx={{ bgcolor: "rgba(76,175,80,0.25)", px: 1, py: 0.3, borderRadius: 1, color: "#a5d6a7" }}>
-                          − ₹100 promo
-                        </Typography>
-                        <Typography variant="h5" sx={{ fontWeight: 800, color: "#a5d6a7" }}>
-                          ₹{discountedPrice}
-                        </Typography>
-                      </>
-                    ) : (
-                      <Typography variant="h4" sx={{ fontWeight: 800 }}>
-                        ₹{originalPrice}
-                      </Typography>
-                    )}
-                  </Box>
-                </Box>
-
-                {/* Right — Action buttons */}
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: { xs: "flex-start", sm: "flex-end" } }}>
-                  {!isPromoApplied ? (
-                    <Button
-                      size="small"
-                      onClick={handleOpenPromoDialog}
-                      sx={{
-                        color: "#fff",
-                        border: "1px solid rgba(255,255,255,0.6)",
-                        borderRadius: 2,
-                        textTransform: "none",
-                        px: 2,
-                        "&:hover": { bgcolor: "rgba(255,255,255,0.15)" }
-                      }}
-                    >
-                      🏷️ Apply Promocode
-                    </Button>
-                  ) : (
-                    <Button
-                      size="small"
-                      onClick={handleRemovePromocode}
-                      sx={{
-                        color: "#ffcdd2",
-                        border: "1px solid rgba(255,100,100,0.5)",
-                        borderRadius: 2,
-                        textTransform: "none",
-                        px: 2,
-                        "&:hover": { bgcolor: "rgba(255,100,100,0.1)" }
-                      }}
-                    >
-                      ✕ Remove Promo
-                    </Button>
-                  )}
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      setIsPromoApplied(false);
-                      setPromocode("");
-                      navigate(`/register`, { replace: true });
-                    }}
-                    sx={{
-                      color: "rgba(255,255,255,0.65)",
-                      textTransform: "none",
-                      fontSize: "0.75rem",
-                      p: 0,
-                      "&:hover": { color: "#fff", bgcolor: "transparent" }
-                    }}
-                  >
-                    Change plan
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
-          )}
-
-
-          <Divider sx={{ height: "1px", mb: isMobile ? 1 : 2 }} />
 
           <Box
             sx={{
               display: "flex",
               flexDirection: { xs: "column", md: "row" },
-              gap: 4,
+              gap: 3,
+              mt: 3,
             }}
           >
-            <Box sx={{ flex: 1 }}>
+            <Box
+              sx={{
+                flex: 1,
+                background: "#fff",
+                borderRadius: 3,
+                p: { xs: 2, sm: 3 },
+                boxShadow: "0 2px 16px rgba(94,4,118,0.08)",
+                border: "1px solid rgba(94,4,118,0.08)",
+              }}
+            >
               <Typography
                 variant="h6"
-                sx={{ mb: 3, color: "primary.main", fontWeight: 600 }}
+                sx={{
+                  mb: 3,
+                  color: "#2D081C",
+                  fontWeight: 700,
+                  fontSize: "0.9rem",
+                  letterSpacing: "1.5px",
+                  textTransform: "uppercase",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  "&::after": {
+                    content: '""',
+                    flex: 1,
+                    height: "1px",
+                    background: "rgba(94,4,118,0.15)",
+                    ml: 1,
+                  },
+                }}
               >
-                PERSONAL DETAILS
+                Personal Details
               </Typography>
 
               <FormControl fullWidth sx={{ mb: 3 }} required>
@@ -686,7 +571,7 @@ const Register = () => {
               />
               <Typography
                 variant="h6"
-                sx={{ mb: 2, color: "primary.main", fontWeight: 600 }}
+                sx={{ mb: 2, color: "#2D081C", fontWeight: 600 }}
               >
                 SOCIAL & CAREER DETAILS
               </Typography>
@@ -753,12 +638,38 @@ const Register = () => {
               </Box>
             </Box>
 
-            <Box sx={{ flex: 1 }}>
+            <Box
+              sx={{
+                flex: 1,
+                background: "#fff",
+                borderRadius: 3,
+                p: { xs: 2, sm: 3 },
+                boxShadow: "0 2px 16px rgba(94,4,118,0.08)",
+                border: "1px solid rgba(94,4,118,0.08)",
+              }}
+            >
               <Typography
                 variant="h6"
-                sx={{ mb: 3, color: "primary.main", fontWeight: 600 }}
+                sx={{
+                  mb: 3,
+                  color: "#2D081C",
+                  fontWeight: 700,
+                  fontSize: "0.9rem",
+                  letterSpacing: "1.5px",
+                  textTransform: "uppercase",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  "&::after": {
+                    content: '""',
+                    flex: 1,
+                    height: "1px",
+                    background: "rgba(94,4,118,0.15)",
+                    ml: 1,
+                  },
+                }}
               >
-                FAMILY DETAILS
+                Family Details
               </Typography>
 
               <FormControl fullWidth sx={{ mb: 3 }}>
@@ -844,9 +755,27 @@ const Register = () => {
 
           <Typography
             variant="h6"
-            sx={{ mt: 1, mb: 3, color: "primary.main", fontWeight: 600 }}
+            sx={{
+              mt: 3,
+              mb: 2.5,
+              color: "#2D081C",
+              fontWeight: 700,
+              fontSize: "0.9rem",
+              letterSpacing: "1.5px",
+              textTransform: "uppercase",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              "&::after": {
+                content: '""',
+                flex: 1,
+                height: "1px",
+                background: "rgba(94,4,118,0.15)",
+                ml: 1,
+              },
+            }}
           >
-            LOGIN DETAILS
+            Login Details
           </Typography>
 
           <Box
@@ -924,42 +853,88 @@ const Register = () => {
               fullWidth
               label="Password"
               name="password"
-              type={showPassword ? "text" : "password"}
+              type="password"
               value={formData.password}
               onChange={handleChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              required
             />
             <TextField
               fullWidth
               label="Confirm Password"
               name="confirmPassword"
-              type={showConfirmPassword ? "text" : "password"}
+              type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              required
             />
+          </Box>
+
+          {/* Sponsor Code and Sponsor Name Fields */}
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3, mb: 3 }}>
+            <Box>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: '#333' }}>
+                Sponsor Code:
+              </Typography>
+              <Box display="flex" gap={1}>
+                <TextField
+                  fullWidth
+                  name="refered_by"
+                  value={formData.refered_by || ""}
+                  onChange={handleChange}
+                  placeholder="Promoter ID / Sponsor Code"
+                  inputProps={{ maxLength: 8 }}
+                />
+                <Button
+                  type="button"
+                  variant="contained"
+                  onClick={handleVerifyPromoter}
+                  disabled={isValidatingPromoter || !formData.refered_by}
+                  sx={{
+                    bgcolor: "#2D081C",
+                    color: "#fff",
+                    fontWeight: 600,
+                    "&:hover": { bgcolor: "#4A0E2E" },
+                    textTransform: "none",
+                    minWidth: "85px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  {isValidatingPromoter ? "..." : "Verify"}
+                </Button>
+              </Box>
+              {promoterError && (
+                <Typography variant="caption" sx={{ color: "#d32f2f", fontWeight: 600, display: "block", mt: 0.5 }}>
+                  ✖ {promoterError}
+                </Typography>
+              )}
+            </Box>
+
+            <Box>
+              <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: '#333' }}>
+                Sponsor Name:
+              </Typography>
+              <TextField
+                fullWidth
+                name="refered_name"
+                value={promoterName || ""}
+                placeholder="Sponsor Name (Auto-filled on verify)"
+                InputProps={{
+                  readOnly: true,
+                  startAdornment: promoterName ? (
+                    <span style={{ color: "#2e7d32", fontWeight: "bold", marginRight: "8px" }}>✔</span>
+                  ) : null
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    bgcolor: promoterName ? "#edf7ed !important" : "#ffffff !important",
+                    "& input": {
+                      color: promoterName ? "#1e4620 !important" : "#555 !important",
+                      fontWeight: promoterName ? 600 : 400
+                    }
+                  }
+                }}
+              />
+            </Box>
           </Box>
 
           <Box
@@ -980,140 +955,49 @@ const Register = () => {
               onClick={handleClear}
               sx={{
                 fontWeight: 600,
+                color: "#000",
+                border: '1px solid #2D081C',
                 width: { xs: "100%", sm: "50%", md: "20%" },
                 textTransform: "capitalize",
-                color: "#fff",
-                background: "#9E1B47",
                 "&:hover": {
-                  background: "#245a7e",
+                  backgroundColor: "#2D081C",
+                  color: "#fff",
                 },
               }}
             >
               Clear
             </Button>
+
             <Button
               type="submit"
               variant="contained"
               size="large"
               disabled={isPending || isProcessingPayment}
               sx={{
-                backgroundColor: "#27ae60",
-                "&:hover": { backgroundColor: "#1e8449" },
-                fontWeight: 600,
+                background: isPending || isProcessingPayment
+                  ? "#ccc"
+                  : "linear-gradient(135deg, #2D081C 0%, #4A0E2E 100%)",
+                "&:hover": {
+                  background: "linear-gradient(135deg, #4A0E2E 0%, #2D081C 100%)",
+                  boxShadow: "0 6px 20px rgba(94,4,118,0.4)",
+                  transform: "translateY(-1px)",
+                },
+                transition: "all 0.25s ease",
+                color: "white",
+                fontWeight: 700,
+                letterSpacing: "0.5px",
                 width: { xs: "100%", sm: "50%", md: "20%" },
                 textTransform: "capitalize",
+                borderRadius: 2,
               }}
             >
-              {isProcessingPayment ? <CircularProgress size={24} /> : "Submit"}
+              {isProcessingPayment ? 'Redirecting to Payment...' : displayAmount > 0 ? `Pay ₹${displayAmount}` : 'Submit'}
             </Button>
           </Box>
         </Box>
       </Box>
       <Footer />
-
-      {/* Payment Confirmation Dialog */}
-      <Dialog open={paymentDialogOpen} onClose={() => setPaymentDialogOpen(false)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ fontWeight: 600, color: 'primary.main' }}>Confirm Payment</DialogTitle>
-        <DialogContent>
-          {/* Plan Summary */}
-          <Box sx={{ mb: 2, p: 2, bgcolor: '#f5f9ff', borderRadius: 2, border: '1px solid #d0e4f7' }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary', mb: 0.5 }}>Selected Plan</Typography>
-            <Typography variant="h6" sx={{ fontWeight: 700, color: 'primary.main', mb: 1.5 }}>
-              {planType === "PremiumUser" ? "⭐ Premium Membership" : "🥈 Silver Membership"}
-            </Typography>
-
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-              <Typography variant="body2" color="text.secondary">Original Price</Typography>
-              <Typography variant="body2" sx={{ textDecoration: isPromoApplied ? 'line-through' : 'none', color: 'text.secondary' }}>
-                ₹{originalPrice}
-              </Typography>
-            </Box>
-
-            {isPromoApplied && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
-                <Typography variant="body2" color="success.main">Promo Discount ({promocode})</Typography>
-                <Typography variant="body2" color="success.main">- ₹100</Typography>
-              </Box>
-            )}
-
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, pt: 1, borderTop: '1px solid #d0e4f7' }}>
-              <Typography variant="body1" sx={{ fontWeight: 700 }}>Total Payable</Typography>
-              <Typography variant="body1" sx={{ fontWeight: 700, color: '#27ae60', fontSize: '1.1rem' }}>
-                ₹{discountedPrice}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Typography variant="body2" color="text.secondary">
-            After payment, you will be redirected back. Your account will be activated after successful payment and admin verification.
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ px: 3, pb: 2, gap: 1 }}>
-          <Button onClick={() => setPaymentDialogOpen(false)} variant="outlined" fullWidth>
-            Cancel
-          </Button>
-          <Button
-            onClick={handlePaymentConfirm}
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ fontWeight: 600, bgcolor: "#27ae60", "&:hover": { backgroundColor: "#1e8449" } }}
-          >
-            Pay ₹{discountedPrice}
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* Promocode Dialog */}
-      <Dialog open={promoDialogOpen} onClose={handleClosePromoDialog} maxWidth="xs" fullWidth>
-        <DialogTitle>
-          Apply Promocode
-        </DialogTitle>
-        <DialogContent>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Enter your promocode to get ₹100 discount on your membership plan.
-          </Typography>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Promocode"
-            fullWidth
-            variant="outlined"
-            value={promocode}
-            onChange={(e) => setPromocode(e.target.value)}
-            disabled={checkPromocodeMutation.isPending}
-          />
-        </DialogContent>
-        <DialogActions sx={{ justifyContent: "center", p: 3, gap: 2 }}>
-          <Button
-            variant="outlined"
-            onClick={handleClosePromoDialog}
-            disabled={checkPromocodeMutation.isPending}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            onClick={handleApplyPromocode}
-            disabled={!promocode.trim() || checkPromocodeMutation.isPending}
-            startIcon={
-              checkPromocodeMutation.isPending ? (
-                <CircularProgress size={20} />
-              ) : null
-            }
-            sx={{
-              minWidth: 120,
-              background: "linear-gradient(45deg, #E91E63 30%, #21CBF3 90%)",
-              "&:hover": {
-                background: "linear-gradient(45deg, #1976D2 30%, #0288D1 90%)",
-              },
-            }}
-          >
-            {checkPromocodeMutation.isPending ? "Checking..." : "Apply"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+    </>
   );
 };
 

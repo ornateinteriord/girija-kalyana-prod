@@ -17,6 +17,8 @@ import {
   ListItemText,
   InputAdornment,
   CircularProgress,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Visibility, VisibilityOff, Email, Lock, Favorite } from "@mui/icons-material";
@@ -31,7 +33,17 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [openForgotPassword, setOpenForgotPassword] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [loginData, setLoginData] = useState(() => {
+    const savedUsername = localStorage.getItem("rememberedUsername");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    return {
+      username: savedUsername || "",
+      password: savedPassword || "",
+    };
+  });
+  const [rememberMe, setRememberMe] = useState(() => {
+    return localStorage.getItem("rememberMe") === "true";
+  });
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -57,6 +69,15 @@ const Navbar = () => {
     if (!loginData.username || !loginData.password) {
       toast.error("Both username and password are required");
       return;
+    }
+    if (rememberMe) {
+      localStorage.setItem("rememberedUsername", loginData.username);
+      localStorage.setItem("rememberedPassword", loginData.password);
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("rememberedUsername");
+      localStorage.removeItem("rememberedPassword");
+      localStorage.removeItem("rememberMe");
     }
     login(loginData);
   };
@@ -563,19 +584,30 @@ const Navbar = () => {
                 "& label.Mui-focused": { color: "#9E1B47" },
               }}
             />
-            <Typography
-              variant="body2"
-              sx={{
-                cursor: "pointer",
-                textAlign: "right",
-                color: "#9E1B47",
-                fontWeight: 500,
-                "&:hover": { textDecoration: "underline" },
-              }}
-              onClick={handleOpenForgotPassword}
-            >
-              Forgot Password?
-            </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <FormControlLabel
+                control={
+                  <Checkbox 
+                    checked={rememberMe} 
+                    onChange={(e) => setRememberMe(e.target.checked)} 
+                    sx={{ color: "#9E1B47", '&.Mui-checked': { color: "#9E1B47", padding: "4px" } }}
+                  />
+                }
+                label={<Typography variant="body2" sx={{ color: "#333", fontWeight: 500 }}>Remember Me</Typography>}
+              />
+              <Typography
+                variant="body2"
+                sx={{
+                  cursor: "pointer",
+                  color: "#9E1B47",
+                  fontWeight: 500,
+                  "&:hover": { textDecoration: "underline" },
+                }}
+                onClick={handleOpenForgotPassword}
+              >
+                Forgot Password?
+              </Typography>
+            </Box>
           </Box>
         </DialogContent>
 

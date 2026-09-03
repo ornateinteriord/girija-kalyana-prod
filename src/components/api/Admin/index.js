@@ -4,8 +4,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { get, post, put } from "../authHooks";
 import { toast } from "react-toastify";
 
+
 export const useUpgradeUserType = () => {
-   return useMutation({
+  const queryClient = useQueryClient();
+  return useMutation({
     mutationFn: async ({ userType, amountPaid, paidType, referenceNumber, registration_no }) => {
       const response = await post(`/api/admin/upgrade-user-type/${registration_no}`, {
         userType, amountPaid, paidType, referenceNumber
@@ -13,43 +15,26 @@ export const useUpgradeUserType = () => {
       if (response?.success) {
         return response;
       } else {
-        throw new Error(response?.message || "Failed to fetch users");
+        throw new Error(response?.message || "Failed to upgrade user");
       }
     },
-  });
-};
-export const getAllUserImageVerification = () => {
-   return useMutation({
-    mutationFn: async ({ page, pageSize }) => {
-      const response = await post("/api/admin/image-verification", {
-        page,
-        pageSize,
-      });
+    onSuccess: (response) => {
       if (response?.success) {
-        return response;
-      
+        toast.success(response?.message || "User upgraded successfully");
+        queryClient.invalidateQueries({ queryKey: ["profiles"] });
+        queryClient.invalidateQueries({ queryKey: ["renewalProfiles"] });
+        queryClient.invalidateQueries({ queryKey: ["allUsers"] });
       } else {
-        throw new Error(response?.message || "Failed to fetch users");
+        toast.error(response?.message || "Failed to upgrade user");
       }
+    },
+    onError: (err) => {
+      const errorMessage = err?.response?.data?.message || err?.message || "Upgrade failed";
+      toast.error(errorMessage);
     },
   });
 };
-export const getAllUserProfiles = () => {
-   return useMutation({
-    mutationFn: async ({ page, pageSize }) => {
-      const response = await post("/api/admin/all-user-details", {
-        page,
-        pageSize,
-      });
-      if (response?.success) {
-        return response;
-      
-      } else {
-        throw new Error(response?.message || "Failed to fetch users");
-      }
-    },
-  });
-};
+
 export const getRenewalProfiles = () => {
   return useMutation({
     mutationFn: async ({ page, pageSize, search = "" }) => {
@@ -63,6 +48,40 @@ export const getRenewalProfiles = () => {
         return response;
       } else {
         throw new Error(response?.message || "Failed to fetch renewal profiles");
+      }
+    },
+  });
+};
+
+export const getAllUserImageVerification = () => {
+   return useMutation({
+    mutationFn: async ({ page, pageSize }) => {
+      const response = await post("/api/admin/image-verification", {
+        page,
+        pageSize,
+      });
+      if (response?.success) {
+        return response;
+
+      } else {
+        throw new Error(response?.message || "Failed to fetch users");
+      }
+    },
+  });
+};
+
+export const getAllUserProfiles = () => {
+   return useMutation({
+    mutationFn: async ({ page, pageSize }) => {
+      const response = await post("/api/admin/all-user-details", {
+        page,
+        pageSize,
+      });
+      if (response?.success) {
+        return response;
+      
+      } else {
+        throw new Error(response?.message || "Failed to fetch users");
       }
     },
   });
@@ -188,7 +207,41 @@ export const useOnlineTransactions = () => {
         );
       }
 
+      console.log("API response:", response);
       return response.data; // This should be your array of transactions
+    },
+  });
+};
+
+export const useUpdateOnlineTransactionStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, status, activateUser, usertype }) => {
+      const response = await put(`/api/admin/online-transactions/${id}/update-status`, {
+        status,
+        activateUser,
+        usertype,
+      });
+      if (response?.success) {
+        return response;
+      } else {
+        throw new Error(response?.message || "Failed to update transaction status");
+      }
+    },
+    onSuccess: (response) => {
+      if (response?.success) {
+        toast.success(response?.message || "Transaction updated successfully");
+        queryClient.invalidateQueries({ queryKey: ["online-transactions"] });
+        queryClient.invalidateQueries({ queryKey: ["profiles"] });
+        queryClient.invalidateQueries({ queryKey: ["renewalProfiles"] });
+        queryClient.invalidateQueries({ queryKey: ["allUsers"] });
+      } else {
+        toast.error(response?.message || "Failed to update transaction");
+      }
+    },
+    onError: (err) => {
+      const errorMessage = err?.response?.data?.message || err?.message || "Update failed";
+      toast.error(errorMessage);
     },
   });
 };
@@ -271,6 +324,32 @@ export const useUpdatePromoterStatus = () => {
   });
 };
 
+export const useAddPromoter = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await post("/api/admin/add-promoter", data);
+      if (!response?.success) {
+        throw new Error(response?.message || "Failed to add promoter");
+      }
+      return response;
+    },
+    onSuccess: (data) => {
+      if (data.success) {
+        toast.success(data.message || "Promoter added successfully");
+        queryClient.invalidateQueries({ queryKey: ["promoters"] });
+      } else {
+        toast.error(data.message || "Failed to add promoter");
+      }
+    },
+    onError: (error) => {
+      const errorMessage = error?.response?.data?.message || error?.message || "Error adding promoter";
+      toast.error(errorMessage);
+    },
+  });
+};
+
 export const getPromoterUsersStats = () => {
   return useQuery({
     queryKey: ["promoter-user-stats"],
@@ -336,59 +415,4 @@ export const useAddNews = () => {
   });
 };
 
-// Add these new exports for incomplete payment admin functionality
-export const useAdminIncompletePayments = () => {
-  return useQuery({
-    queryKey: ['admin-incomplete-payments'],
-    queryFn: async ({ page = 1, limit = 10, resolved = null, ticketRaised = null }) => {
-      let url = `/api/admin/incomplete-payments?page=${page}&limit=${limit}`;
-      if (resolved !== null) {
-        url += `&resolved=${resolved}`;
-      }
-      if (ticketRaised !== null) {
-        url += `&ticketRaised=${ticketRaised}`;
-      }
-      const response = await get(url);
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to fetch incomplete payments');
-      }
-      return response;
-    },
-  });
-};
-
-export const useAdminIncompletePayment = (orderId) => {
-  return useQuery({
-    queryKey: ['admin-incomplete-payment', orderId],
-    queryFn: async () => {
-      const response = await get(`/api/admin/incomplete-payment/${orderId}`);
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to fetch incomplete payment');
-      }
-      return response.data;
-    },
-    enabled: !!orderId,
-  });
-};
-
-export const useResolveIncompletePayment = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async ({ orderId, data }) => {
-      const response = await post(`/api/admin/resolve-incomplete-payment/${orderId}`, data);
-      return response;
-    },
-    onSuccess: (response) => {
-      if (response?.success) {
-        toast.success(response.message);
-        queryClient.invalidateQueries({ queryKey: ['admin-incomplete-payments'] });
-      } else {
-        toast.error(response?.message);
-      }
-    },
-    onError: (err) => {
-      const errorMessage = err.response?.data?.message;
-      toast.error(errorMessage);
-    },
-  });
-};
+export * from './incompletePayments';
