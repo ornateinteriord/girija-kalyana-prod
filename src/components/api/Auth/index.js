@@ -76,10 +76,7 @@ export const useResetPasswordMutation = () => {
       return await post("/api/auth/reset-password", data);
     },
     onSuccess: (response) => {
-      if (response.success) {
-        toast.success(response.message);
-        navigate("/login");
-      } else {
+      if (!response.success) {
         toast.error(response.message);
       }
     },
