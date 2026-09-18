@@ -382,12 +382,7 @@ useEffect(() => {
     justifySelf: "center",
     alignSelf: "center",
     mr: 2,
-    gridTemplateColumns: {
-      xs: "1fr",
-      sm: "repeat(2, 1fr)",
-      md: "repeat(3, 1fr)",
-      lg: "repeat(4, 1fr)",
-    },
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
     gap: { xs: 2, sm: 3 },
     minHeight: 300,
   }}
