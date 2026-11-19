@@ -1,11 +1,10 @@
-
+import React from 'react';
+import ReferralsTable from './ReferralsTable';
 
 function Pending() {
   return (
-    <div>
-      Pending
-    </div>
-  )
+    <ReferralsTable statusFilter="Pending" />
+  );
 }
 
-export default Pending
+export default Pending;

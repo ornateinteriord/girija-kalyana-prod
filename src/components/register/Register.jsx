@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import axios from "axios";
 // Cashfree JS SDK v3 is loaded via <script> tag in index.html (window.Cashfree)
 import {
@@ -42,6 +42,20 @@ const Register = () => {
   const searchParams = new URLSearchParams(location.search);
   const planType = searchParams.get("type");
 
+  const getInitialRefCode = () => {
+    try {
+      const params = new URLSearchParams(window?.location?.search || "");
+      return (
+        params.get("ref") ||
+        params.get("promo") ||
+        params.get("refered_by") ||
+        ""
+      ).trim().toUpperCase();
+    } catch {
+      return "";
+    }
+  };
+
   const [citySuggestions, setCitySuggestions] = useState(datas.cities || []);
   const [talukSuggestions, setTalukSuggestions] = useState([]);
 
@@ -82,7 +96,7 @@ const Register = () => {
     mobile_no: "",
     password: "",
     confirmPassword: "",
-    refered_by: "",
+    refered_by: getInitialRefCode(),
     refered_name: "",
   };
 
@@ -91,6 +105,36 @@ const Register = () => {
   const [promoterName, setPromoterName] = useState("");
   const [promoterError, setPromoterError] = useState("");
   const [isValidatingPromoter, setIsValidatingPromoter] = useState(false);
+  const verifiedCodeRef = useRef("");
+
+  const verifyCode = useCallback(async (codeToVerify) => {
+    if (!codeToVerify || verifiedCodeRef.current === codeToVerify) return;
+    verifiedCodeRef.current = codeToVerify;
+    setIsValidatingPromoter(true);
+    setPromoterError("");
+    try {
+      const response = await post("/api/promoter/promocheck", { promocode: codeToVerify });
+      if (response?.success && response?.data?.promoterName) {
+        setPromoterName(response.data.promoterName);
+        setFormData((prev) => ({
+          ...prev,
+          refered_by: codeToVerify,
+          refered_name: response.data.promoterName,
+        }));
+        toast.success(`Sponsor Code applied: ${codeToVerify} (${response.data.promoterName})`, {
+          toastId: "sponsor-applied-toast",
+        });
+      } else {
+        setPromoterError(response?.message || "Invalid Sponsor Code");
+      }
+    } catch (error) {
+      console.error("Auto verify sponsor error:", error);
+      const msg = error?.response?.data?.message || "Invalid Sponsor Code or inactive promoter";
+      setPromoterError(msg);
+    } finally {
+      setIsValidatingPromoter(false);
+    }
+  }, []);
 
   // Determine display amount for selected plan
   const getPlanAmount = () => {
@@ -111,6 +155,21 @@ const Register = () => {
       user_role: getUserRole(),
     }));
   }, [planType]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const code = (
+      params.get("ref") ||
+      params.get("promo") ||
+      params.get("refered_by") ||
+      getInitialRefCode()
+    ).trim().toUpperCase();
+
+    if (code) {
+      setFormData((prev) => ({ ...prev, refered_by: code }));
+      verifyCode(code);
+    }
+  }, [location.search, verifyCode]);
 
   useEffect(() => {
     if (formData.state) {

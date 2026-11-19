@@ -5,6 +5,28 @@ import TokenService from "../../token/tokenService";
 import { get, post } from "../authHooks";
 import { useCheckPromocode } from "../Payment";
 
+export const extractErrorMessage = (error, defaultMsg = "An error occurred. Please try again.") => {
+  const data = error?.response?.data;
+  if (typeof data === "string" && data.trim()) return data;
+  if (data?.message) return data.message;
+  if (data?.error?.message) return data.error.message;
+  if (typeof data?.error === "string") return data.error;
+  if (data?.msg) return data.msg;
+
+  const status = error?.response?.status;
+  if (status === 400) return "Invalid username or password. Please try again.";
+  if (status === 401) return "Incorrect password. Please try again.";
+  if (status === 403) return "Member under pending approval by admin.";
+  if (status === 404) return "Account not found. Please check your credentials.";
+  if (status >= 500) return "Server error. Please try again later.";
+
+  if (error?.message && !error.message.includes("status code")) {
+    return error.message;
+  }
+
+  return defaultMsg;
+};
+
 export const useSignupMutation = ()=>{
   const navigate = useNavigate();
   return useMutation({
@@ -13,14 +35,9 @@ export const useSignupMutation = ()=>{
       },
       onSuccess: (response) => {
         if (response.success) {
-          // For premium users, don't automatically set token or navigate
-          // They will be redirected to payment and then to activation pending
           if (response.user?.type_of_user === "PremiumUser" || response.user?.type_of_user === "SilverUser") {
-            // Token might not be set for premium users as they need to complete payment first
-            // Navigation will be handled by the payment flow
             toast.success("Registration successful. Please complete payment to activate your account.");
           } else {
-            // For free users, proceed with normal flow
             TokenService.setToken(response.token);
             window.dispatchEvent(new Event("storage")); 
             toast.success(response.message);
@@ -31,7 +48,7 @@ export const useSignupMutation = ()=>{
         }
       },
       onError: (error) => {
-        toast.error(error.response.data.message);
+        toast.error(extractErrorMessage(error, "Signup failed. Please try again."));
       },
     });
 }
@@ -46,25 +63,46 @@ export const useLoginMutation = () => {
 
     onSuccess: (response) => {
       if (response?.success && response?.token) {
+        const userStatus =
+          response?.user?.status ||
+          response?.status ||
+          TokenService.decodeToken()?.status ||
+          TokenService.decodeToken()?.user_status;
+
+        if (userStatus && userStatus.toString().toLowerCase() !== "active") {
+          TokenService.removeToken();
+          toast.error(
+            response?.message || "Member under pending approval by admin."
+          );
+          return;
+        }
+
         TokenService.setToken(response.token);
         window.dispatchEvent(new Event("storage")); 
 
-        const userStatus = response?.user?.status;
         const role = TokenService.getRole();
+        toast.success(response.message || "Logged in successfully");
 
-        if (role === "promoter") {
-          navigate("/promoter/dashboard");
-        } else if (userStatus === "active") {
-          navigate("/user/userDashboard");
+        const roleLower = role?.toString().trim().toLowerCase();
+
+        if (roleLower === "promoter") {
+          navigate("/PromotAdmin");
+        } else if (roleLower === "admin") {
+          navigate("/admin/dashboard");
         } else {
-          navigate("/activation-pending");
+          navigate("/user/userDashboard");
         }
       } else if (response?.success === false) {
-        toast.error(response?.message);
+        toast.error(response?.message || "Login failed");
       }
     },
     onError: (error) => {
-      toast.error(error?.response?.data?.message || "An error occurred during login");
+      const errorMsg = extractErrorMessage(
+        error,
+        "Login failed. Please check your credentials."
+      );
+      toast.error(errorMsg);
+      console.error("Login error:", errorMsg);
     },
   });
 };

@@ -38,6 +38,9 @@ const PromotersDashboard = () => {
   const [profileDialogOpen, setProfileDialogOpen] = useState(false);
   const openMenu = Boolean(anchorEl);
   const navigation = useNavigate();
+  const decodedToken = TokenService.decodeToken();
+  const displayName = decodedToken?.first_name || decodedToken?.username || "Promoter";
+  const initial = displayName.charAt(0).toUpperCase();
   const toggleDrawer = () => setOpen(!open);
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
@@ -119,15 +122,15 @@ const PromotersDashboard = () => {
                   fontSize: "1.2rem",
                   fontWeight: "bold",
                 }}
-                alt="Admin"
+                alt={displayName}
               >
-                A
+                {initial}
               </Avatar>
               <Typography
                 variant="subtitle1"
                 sx={{ ml: 1, mr: 1, fontWeight: "bold" }}
               >
-                Admin
+                {displayName}
               </Typography>
               <ArrowDropDownIcon />
             </Box>

@@ -1,0 +1,293 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");
+
+.promoter-auth-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(158, 27, 71, 0.25) 0%, transparent 50%),
+              #0B1320;
+  font-family: "Outfit", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow-x: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #9E1B47, #FFB200, #9E1B47);
+  }
+
+  .promoter-auth-container {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &.register-container {
+      max-width: 820px;
+    }
+  }
+
+  .promoter-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #94A3B8;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    align-self: flex-start;
+
+    &:hover {
+      color: #FFB200;
+      transform: translateX(-3px);
+    }
+  }
+
+  .promoter-auth-card {
+    background: rgba(15, 23, 42, 0.9);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(212, 175, 55, 0.1);
+    color: #F8FAFC;
+
+    @media (max-width: 600px) {
+      padding: 28px 20px;
+      border-radius: 16px;
+    }
+  }
+
+  /* Header */
+  .promoter-auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(158, 27, 71, 0.2);
+      border: 1px solid rgba(255, 178, 0, 0.4);
+      padding: 6px 14px;
+      border-radius: 30px;
+      color: #FFB200;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+
+      .badge-icon {
+        font-size: 1.1rem;
+      }
+    }
+
+    .auth-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin: 0 0 10px;
+      letter-spacing: -0.5px;
+
+      @media (max-width: 600px) {
+        font-size: 1.7rem;
+      }
+    }
+
+    .auth-subtitle {
+      font-size: 0.95rem;
+      color: #94A3B8;
+      line-height: 1.5;
+      margin: 0 auto;
+      max-width: 460px;
+    }
+  }
+
+  /* Form */
+  .promoter-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+
+    .form-section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #FFB200;
+      font-weight: 700;
+      margin: 14px 0 4px;
+      border-bottom: 1px solid rgba(255, 178, 0, 0.2);
+      padding-bottom: 6px;
+
+      .optional-tag {
+        font-size: 0.75rem;
+        text-transform: none;
+        color: #64748B;
+        font-weight: 400;
+      }
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+
+      @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+
+      @media (max-width: 850px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      label {
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: #CBD5E1;
+      }
+
+      .input-icon {
+        color: #FFB200;
+        font-size: 1.25rem;
+      }
+
+      .MuiOutlinedInput-root {
+        background: rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
+        color: #F8FAFC;
+        font-size: 0.95rem;
+        transition: all 0.2s ease;
+
+        fieldset {
+          border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        &:hover fieldset {
+          border-color: rgba(255, 178, 0, 0.4);
+        }
+
+        &.Mui-focused {
+          background: rgba(255, 255, 255, 0.07);
+
+          fieldset {
+            border-color: #FFB200;
+            border-width: 1.5px;
+          }
+        }
+
+        &.Mui-disabled {
+          background: rgba(255, 255, 255, 0.02);
+        }
+
+        input {
+          padding: 12px 14px;
+          &::placeholder {
+            color: #64748B;
+            opacity: 1;
+          }
+        }
+
+        .MuiIconButton-root {
+          color: #94A3B8;
+          &:hover {
+            color: #FFB200;
+          }
+        }
+      }
+    }
+
+    .form-row-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .checkbox-label {
+        color: #94A3B8;
+        font-size: 0.88rem;
+      }
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #9E1B47, #E91E63) !important;
+      color: #FFFFFF !important;
+      font-weight: 700 !important;
+      font-size: 1rem !important;
+      padding: 13px 20px !important;
+      border-radius: 12px !important;
+      text-transform: none !important;
+      box-shadow: 0 4px 18px rgba(158, 27, 71, 0.35) !important;
+      transition: all 0.3s ease !important;
+
+      &:hover {
+        background: linear-gradient(135deg, #B52254, #F03273) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(158, 27, 71, 0.5) !important;
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        background: #64748B !important;
+        color: #CBD5E1 !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+
+  /* Card Footer / Switch links */
+  .promoter-auth-footer {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+
+    p {
+      color: #94A3B8;
+      font-size: 0.92rem;
+      margin: 0;
+
+      .switch-link {
+        color: #FFB200;
+        font-weight: 600;
+        text-decoration: none;
+        margin-left: 6px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+
+        &:hover {
+          color: #FFA000;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .promoter-help-footer {
+    text-align: center;
+    color: #64748B;
+    font-size: 0.82rem;
+    padding: 0 10px;
+  }
+}

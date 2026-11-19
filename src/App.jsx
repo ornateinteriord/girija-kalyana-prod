@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, Typography, ThemeProvider, createTheme } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './App.css';
@@ -113,6 +113,8 @@ const TestPlanSelection = lazy(() => import('./components/TestPlanSelection'));
 
 const IncompletePayments = lazy(() => import('./components/Admin/IncompletePayments/IncompletePayments.jsx'));
 const PaymentRedirect = lazy(() => import('./components/PaymentRedirect/PaymentRedirect'));
+const PromoterLogin = lazy(() => import('./components/PromotersDash/Auth/PromoterLogin'));
+const PromoterRegister = lazy(() => import('./components/PromotersDash/Auth/PromoterRegister'));
 
 export const LoadingComponent = () => {
   return (
@@ -255,6 +257,10 @@ const App = () => {
                   <Route path="/register" element={<Register />} />
                   <Route path="/test-plan" element={<TestPlanSelection />} />
                   <Route path="/membership" element={<MembershipPlan />} />
+                  <Route path="/promoter/login" element={<PromoterLogin />} />
+                  <Route path="/promoter-login" element={<PromoterLogin />} />
+                  <Route path="/promoter/register" element={<PromoterRegister />} />
+                  <Route path="/promoter-register" element={<PromoterRegister />} />
 
                   {/* Admin Routes */}
                   <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
@@ -290,6 +296,8 @@ const App = () => {
                   </Route>
 
                   {/* <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}> */}
+                  <Route path="/promoter/*" element={<Navigate to="/PromotAdmin" replace />} />
+                  <Route path="/promoter" element={<Navigate to="/PromotAdmin" replace />} />
                   <Route element={<ProtectedRoute allowedRoles={["promoter"]} />}>
                     <Route path="/PromotAdmin" element={<PromotersDashboard />}>
                       <Route index element={<DashboardContent sidebarData={sidebarData} />} />
