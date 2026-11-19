@@ -11,11 +11,38 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel
+  InputLabel,
+  Card
 } from '@mui/material';
-import { Add, Delete, Send } from '@mui/icons-material';
+import { Add, Delete, Send, ContentCopy, WhatsApp, PersonAdd, Check, Link as LinkIcon, Share } from '@mui/icons-material';
+import { toast } from 'react-toastify';
+import TokenService from '../../token/tokenService';
 
 const ReferInvitePage = () => {
+  const decodedToken = TokenService.decodeToken();
+  const promoCode = decodedToken?.promoter_id || "";
+  const referralLink = typeof window !== 'undefined' ? `${window.location.origin}/register?ref=${promoCode}` : "";
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    if (!promoCode) {
+      toast.error("Promoter code not available.");
+      return;
+    }
+    navigator.clipboard.writeText(referralLink);
+    setCopied(true);
+    toast.success("Referral link copied!");
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleShareWhatsApp = () => {
+    if (!promoCode) return;
+    const text = encodeURIComponent(
+      `Hello! Register on Girija Kalyana Matrimony with my referral code ${promoCode} or click here: ${referralLink}`
+    );
+    window.open(`https://api.whatsapp.com/send?text=${text}`, "_blank");
+  };
+
   const [entries, setEntries] = useState([{
     email: '',
     mobile: '',
@@ -66,13 +93,101 @@ const ReferInvitePage = () => {
         variant="h4"
         sx={{
           fontWeight: 700,
-          mb: 4,
+          mb: 3,
           color: 'primary.main',
           textAlign: 'center'
         }}
       >
         Invite Your Friends & Family
       </Typography>
+
+      {/* Direct Referral Link Card */}
+      <Card
+        sx={{
+          mb: 4,
+          p: { xs: 2, sm: 2.5 },
+          borderRadius: "12px",
+          border: "1px solid #e2e8f0",
+          backgroundColor: "#ffffff",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+        }}
+      >
+        <Typography variant="body2" sx={{ fontWeight: 600, color: "#64748b", mb: 0.5 }}>
+          Your Referral Link
+        </Typography>
+
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 1.5, alignItems: "center" }}>
+          <TextField
+            fullWidth
+            size="small"
+            value={referralLink}
+            InputProps={{
+              readOnly: true,
+              startAdornment: <LinkIcon sx={{ color: "#64748b", mr: 1 }} fontSize="small" />,
+              sx: {
+                backgroundColor: "#f8fafc",
+                color: "#0f172a",
+                fontFamily: "monospace",
+                fontSize: "0.88rem",
+                borderRadius: "8px",
+              },
+            }}
+          />
+          <Box sx={{ display: "flex", gap: 1, width: { xs: "100%", sm: "auto" } }}>
+            <Button
+              size="small"
+              variant="contained"
+              onClick={handleCopyLink}
+              startIcon={copied ? <Check /> : <ContentCopy />}
+              sx={{
+                backgroundColor: copied ? "#16a34a" : "#9E1B47",
+                color: "#fff",
+                fontWeight: 600,
+                textTransform: "none",
+                whiteSpace: "nowrap",
+                borderRadius: "8px",
+                px: 2,
+                "&:hover": { backgroundColor: copied ? "#15803d" : "#801336" },
+              }}
+            >
+              {copied ? "Copied" : "Copy"}
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              color="success"
+              onClick={handleShareWhatsApp}
+              startIcon={<WhatsApp />}
+              sx={{
+                fontWeight: 600,
+                textTransform: "none",
+                whiteSpace: "nowrap",
+                borderRadius: "8px",
+                px: 2,
+              }}
+            >
+              WhatsApp
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={() => window.open(referralLink, "_blank")}
+              sx={{
+                color: "#9E1B47",
+                borderColor: "#cbd5e1",
+                fontWeight: 600,
+                textTransform: "none",
+                whiteSpace: "nowrap",
+                borderRadius: "8px",
+                px: 2,
+                "&:hover": { borderColor: "#9E1B47" },
+              }}
+            >
+              Add User
+            </Button>
+          </Box>
+        </Box>
+      </Card>
 
       {/* Subheading */}
       <Typography

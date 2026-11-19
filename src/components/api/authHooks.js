@@ -46,10 +46,20 @@ api.interceptors.response.use(
   },
   (error) => {
     const originalRequest = error.config;
-    if ((error.response?.status === 401 || error.response?.status === 403) && !originalRequest._retry) {
+    const url = originalRequest?.url || "";
+    const isAuthEndpoint =
+      url.includes("/api/auth/login") ||
+      url.includes("/api/auth/signup") ||
+      url.includes("/api/promoter/register");
+
+    if (
+      !isAuthEndpoint &&
+      (error.response?.status === 401 || error.response?.status === 403) &&
+      !originalRequest?._retry
+    ) {
       originalRequest._retry = true;
       TokenService.removeToken();
-      window.location.href = '/'; 
+      window.location.href = "/";
     }
     return Promise.reject(error);
   }

@@ -1,11 +1,10 @@
-import React from 'react'
+import React from 'react';
+import ReferralsTable from './ReferralsTable';
 
 function TeamUsers() {
   return (
-    <div>
-      TeamUsers
-    </div>
-  )
+    <ReferralsTable statusFilter="TeamUsers" />
+  );
 }
 
-export default TeamUsers
+export default TeamUsers;
